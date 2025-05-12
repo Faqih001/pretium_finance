@@ -37,8 +37,7 @@ class _LandingPageState extends State<LandingPage> {
   }
 
   void _onPageChanged(int index) {
-    setState(() {
-    });
+    setState(() {});
   }
 
   void _navigateToLogin() {
@@ -98,7 +97,7 @@ class _LandingPageState extends State<LandingPage> {
           ),
           const SizedBox(height: 30),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+            padding: const EdgeInsets.only(left: 20, right: 20, bottom: 70),
             child: SizedBox(
               width: double.infinity,
               height: 56,
