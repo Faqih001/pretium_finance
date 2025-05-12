@@ -49,7 +49,7 @@ class _LandingPageState extends State<LandingPage> {
       MaterialPageRoute(builder: (context) => const LoginPage()),
     );
   }
-  
+
   void _handleButtonAction() {
     if (_currentPage == onboardingData.length - 1) {
       // On last page, go to login
@@ -126,7 +126,9 @@ class _LandingPageState extends State<LandingPage> {
                   ),
                 ),
                 child: Text(
-                  _currentPage == onboardingData.length - 1 ? 'Get Started' : 'Next',
+                  _currentPage == onboardingData.length - 1
+                      ? 'Get Started'
+                      : 'Next',
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 18,
