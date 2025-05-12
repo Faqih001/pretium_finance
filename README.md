@@ -7,16 +7,19 @@ Pretium Finance is a mobile financial application built with Flutter that enable
 ## Features
 
 ### Authentication
+
 - **User Registration**: Sign up with first name, last name, and email
 - **Secure Login**: Password-protected with "Remember Me" functionality
 - **Account Verification**: Verification process to confirm user identity
 
 ### Wallet Management
+
 - **Balance Display**: View your current wallet balance in KES with USD equivalent
 - **Transaction History**: Chronological list of all financial activities
 - **Balance Protection**: Option to hide balance for privacy
 
 ### Financial Services
+
 - **Send Money**: Transfer funds to other users via phone number or email
 - **Buy Goods**: Make purchases at merchant locations using a business number
 - **Pay Bills**: Clear utility bills and other payments through business accounts
@@ -24,6 +27,7 @@ Pretium Finance is a mobile financial application built with Flutter that enable
   - Supported networks: Safaricom, Airtel, Telkom, Faiba
 
 ### User Experience
+
 - **Personalized Dashboard**: Quick access to all services and recent transactions
 - **Custom Notifications**: Rich notification system with elegant display
 - **User Profile**: Manage personal details and app settings
@@ -36,6 +40,7 @@ Pretium Finance is a mobile financial application built with Flutter that enable
 ## Technical Specifications
 
 ### Platforms
+
 - Android
 - iOS
 - Web
@@ -44,12 +49,14 @@ Pretium Finance is a mobile financial application built with Flutter that enable
 - Linux
 
 ### Core Technologies
+
 - **Framework**: Flutter
 - **Language**: Dart
 - **Storage**: Local secure storage for user data and transactions
 - **UI**: Material Design 3 with custom components
 
 ### Dependencies
+
 - `flutter_launcher_icons`: For app icon generation across platforms
 - `shared_preferences`: For local data persistence
 - `intl`: For date formatting and localization
@@ -58,12 +65,14 @@ Pretium Finance is a mobile financial application built with Flutter that enable
 ## Installation
 
 ### Prerequisites
+
 - Flutter SDK (latest stable version)
 - Dart SDK
 - Android Studio / VS Code with Flutter plugins
 - Git
 
 ### Clone and Install
+
 ```bash
 # Clone the repository
 git clone https://github.com/faqih001/pretium_finance.git
@@ -79,6 +88,7 @@ flutter run
 ```
 
 ### Build for Production
+
 ```bash
 # Build for Android
 flutter build apk --release
