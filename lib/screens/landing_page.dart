@@ -19,14 +19,14 @@ class _LandingPageState extends State<LandingPage> {
       icon: Icons.credit_card,
     ),
     OnboardingData(
-      title: 'Secure Transactions',
-      description: 'Your transactions are protected with advanced encryption',
-      icon: Icons.security,
+      title: 'Accept Payments',
+      description: 'Accept stable coin payments hasstle-free',
+      icon: Icons.account_balance_wallet,
     ),
     OnboardingData(
-      title: 'Fast and Reliable',
-      description: 'Experience quick and reliable payment processing',
-      icon: Icons.speed,
+      title: 'Pay Bills',
+      description: 'Pay for utility services and earn rewards',
+      icon: Icons.receipt,
     ),
   ];
 
@@ -89,8 +89,8 @@ class _LandingPageState extends State<LandingPage> {
             controller: _pageController,
             count: onboardingData.length,
             effect: const WormEffect(
-              dotHeight: 8,
-              dotWidth: 8,
+              dotHeight: 12,
+              dotWidth: 12,
               activeDotColor: Color(0xFF0B6259),
               dotColor: Color(0xFFDDDDDD),
             ),
