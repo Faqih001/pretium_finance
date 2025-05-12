@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/storage_service.dart';
+import 'reset_password_page.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});
@@ -11,6 +12,16 @@ class ForgotPasswordPage extends StatefulWidget {
 class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final _emailController = TextEditingController();
   String? _emailError;
+
+  // Method to navigate to reset password page
+  void _navigateToResetPasswordPage() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ResetPasswordPage(email: _emailController.text),
+      ),
+    );
+  }
 
   @override
   void dispose() {
@@ -139,21 +150,100 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         _emailController.text,
                       );
 
-                      // Get reset code to display in snackbar (in real app, this would be sent via email)
-                      final resetData =
-                          await StorageService.getPasswordResetRequest();
-                      final resetCode = resetData?['code'] ?? '000000';
+                      // Get reset code (in a real app, this would be sent via email)
+                      await StorageService.getPasswordResetRequest();
 
                       if (mounted) {
-                        // Show success message with the reset code
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              'Reset code sent: $resetCode (for demo only)',
-                            ),
-                            backgroundColor: const Color(0xFF0B6259),
-                            duration: const Duration(seconds: 5),
-                          ),
+                        // Show success dialog with the reset code
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (BuildContext context) {
+                            return Dialog(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              child: Container(
+                                padding: const EdgeInsets.all(24),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const Text(
+                                      'Reset Code Sent',
+                                      style: TextStyle(
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.bold,
+                                        color: Color(0xFF222222),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 20),
+                                    Container(
+                                      width: 80,
+                                      height: 80,
+                                      decoration: const BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Color(0xFFE8F5E9),
+                                      ),
+                                      child: const Icon(
+                                        Icons.check_circle,
+                                        color: Color(0xFF0B6259),
+                                        size: 48,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 24),
+                                    Text(
+                                      'We have sent a password reset code to',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.grey[700],
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      _emailController.text,
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: Color(0xFF222222),
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    const SizedBox(height: 24),
+                                    SizedBox(
+                                      width: double.infinity,
+                                      height: 50,
+                                      child: ElevatedButton(
+                                        onPressed: () {
+                                          Navigator.pop(context); // Close dialog
+                                          // Navigate to reset password page
+                                          _navigateToResetPasswordPage();
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: const Color(0xFF0B6259),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(8),
+                                          ),
+                                        ),
+                                        child: const Text(
+                                          'Continue',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
                         );
                       }
                     } else {

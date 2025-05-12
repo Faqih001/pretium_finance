@@ -5,7 +5,12 @@ import 'dashboard_page.dart';
 import '../services/storage_service.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  final bool fromPasswordReset;
+  
+  const LoginPage({
+    super.key, 
+    this.fromPasswordReset = false,
+  });
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -23,6 +28,36 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     super.initState();
     _loadSavedEmail();
+    
+    // Show notification if coming from password reset page
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (widget.fromPasswordReset && mounted) {
+        _showPasswordResetNotification();
+      }
+    });
+  }
+  
+  void _showPasswordResetNotification() {
+    // Show a notification at the bottom of the screen
+    final snackBar = SnackBar(
+      content: const Text(
+        'Password has been Reset successfully! Please enter the new password to login',
+        style: TextStyle(color: Colors.white),
+      ),
+      backgroundColor: const Color(0xFF0B6259),
+      duration: const Duration(seconds: 5),
+      behavior: SnackBarBehavior.floating,
+      margin: EdgeInsets.only(
+        bottom: 70.0,
+        left: 16.0,
+        right: 16.0,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
+    );
+    
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   Future<void> _loadSavedEmail() async {
