@@ -11,6 +11,7 @@ class LandingPage extends StatefulWidget {
 
 class _LandingPageState extends State<LandingPage> {
   final PageController _pageController = PageController();
+  int _currentPage = 0;
 
   List<OnboardingData> onboardingData = [
     OnboardingData(
@@ -37,7 +38,9 @@ class _LandingPageState extends State<LandingPage> {
   }
 
   void _onPageChanged(int index) {
-    setState(() {});
+    setState(() {
+      _currentPage = index;
+    });
   }
 
   void _navigateToLogin() {
@@ -45,6 +48,19 @@ class _LandingPageState extends State<LandingPage> {
       context,
       MaterialPageRoute(builder: (context) => const LoginPage()),
     );
+  }
+  
+  void _handleButtonAction() {
+    if (_currentPage == onboardingData.length - 1) {
+      // On last page, go to login
+      _navigateToLogin();
+    } else {
+      // Not on last page, go to next page
+      _pageController.nextPage(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
   }
 
   @override
@@ -97,21 +113,21 @@ class _LandingPageState extends State<LandingPage> {
           ),
           const SizedBox(height: 30),
           Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
+            padding: const EdgeInsets.only(left: 20, right: 20, bottom: 70),
             child: SizedBox(
               width: double.infinity,
               height: 56,
               child: ElevatedButton(
-                onPressed: _navigateToLogin,
+                onPressed: _handleButtonAction,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF0B6259),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                child: const Text(
-                  'Next',
-                  style: TextStyle(
+                child: Text(
+                  _currentPage == onboardingData.length - 1 ? 'Get Started' : 'Next',
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
