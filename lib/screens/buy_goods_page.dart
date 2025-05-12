@@ -87,23 +87,55 @@ class _BuyGoodsPageState extends State<BuyGoodsPage> {
       _isLoading = true;
     });
 
-    // Simulate network request
-    await Future.delayed(const Duration(seconds: 2));
-
-    if (mounted) {
-      setState(() {
-        _isLoading = false;
-      });
-
-      // Show success message and go back
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Payment successful!'),
-          backgroundColor: Color(0xFF0B6259),
-        ),
+    try {
+      // Parse amount
+      double amount = double.parse(_amountController.text);
+      
+      // Generate a random ID for the transaction
+      String transactionId = 'buy_${DateTime.now().millisecondsSinceEpoch}_${Random().nextInt(1000)}';
+      
+      // Create transaction object
+      Transaction transaction = Transaction(
+        id: transactionId,
+        type: 'buy_goods',
+        recipient: 'Till ${_tillNumberController.text}',
+        amount: amount,
+        timestamp: DateTime.now(),
+        status: 'completed',
       );
+      
+      // Save transaction
+      await StorageService.saveTransaction(transaction);
+      
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
 
-      Navigator.pop(context);
+        // Show success message and go back
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Payment successful!'),
+            backgroundColor: Color(0xFF0B6259),
+          ),
+        );
+
+        Navigator.pop(context);
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+        
+        // Show error message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error processing payment: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     }
   }
 
