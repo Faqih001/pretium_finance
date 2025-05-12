@@ -111,7 +111,9 @@ class _SendMoneyPageState extends State<SendMoneyPage> {
         elevation: 0,
         iconTheme: const IconThemeData(color: Colors.black),
       ),
-      bottomNavigationBar: const BottomNavBar(currentIndex: 0), // Using dashboard index since this is accessed from dashboard
+      bottomNavigationBar: const BottomNavBar(
+        currentIndex: 0,
+      ), // Using dashboard index since this is accessed from dashboard
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20.0),

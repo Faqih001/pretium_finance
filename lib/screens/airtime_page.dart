@@ -101,7 +101,7 @@ class _AirtimePageState extends State<AirtimePage> {
           backgroundColor: Color(0xFF0B6259),
         ),
       );
-      
+
       Navigator.pop(context);
     }
   }
@@ -118,7 +118,9 @@ class _AirtimePageState extends State<AirtimePage> {
         elevation: 0,
         iconTheme: const IconThemeData(color: Colors.black),
       ),
-      bottomNavigationBar: const BottomNavBar(currentIndex: 0), // Using dashboard index since this is accessed from dashboard
+      bottomNavigationBar: const BottomNavBar(
+        currentIndex: 0,
+      ), // Using dashboard index since this is accessed from dashboard
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -134,70 +136,83 @@ class _AirtimePageState extends State<AirtimePage> {
                   color: Color(0xFF222222),
                 ),
               ),
-              
+
               const SizedBox(height: 12),
-              
+
               // Provider logos
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  children: _providers.map((provider) {
-                    bool isSelected = provider == _selectedProvider;
-                    return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          _selectedProvider = provider;
-                        });
-                      },
-                      child: Container(
-                        margin: const EdgeInsets.only(right: 12),
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: isSelected ? const Color(0xFFE8F5F3) : Colors.white,
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
-                            color: isSelected ? const Color(0xFF0B6259) : const Color(0xFFE0E0E0),
-                          ),
-                        ),
-                        child: Column(
-                          children: [
-                            Container(
-                              width: 50,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                color: _getProviderColor(provider),
-                                shape: BoxShape.circle,
+                  children:
+                      _providers.map((provider) {
+                        bool isSelected = provider == _selectedProvider;
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _selectedProvider = provider;
+                            });
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.only(right: 12),
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color:
+                                  isSelected
+                                      ? const Color(0xFFE8F5F3)
+                                      : Colors.white,
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color:
+                                    isSelected
+                                        ? const Color(0xFF0B6259)
+                                        : const Color(0xFFE0E0E0),
                               ),
-                              child: Center(
-                                child: Text(
-                                  provider[0],
-                                  style: const TextStyle(
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
+                            ),
+                            child: Column(
+                              children: [
+                                Container(
+                                  width: 50,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                    color: _getProviderColor(provider),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      provider[0],
+                                      style: const TextStyle(
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  provider,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight:
+                                        isSelected
+                                            ? FontWeight.w500
+                                            : FontWeight.normal,
+                                    color:
+                                        isSelected
+                                            ? const Color(0xFF0B6259)
+                                            : const Color(0xFF222222),
+                                  ),
+                                ),
+                              ],
                             ),
-                            const SizedBox(height: 8),
-                            Text(
-                              provider,
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: isSelected ? FontWeight.w500 : FontWeight.normal,
-                                color: isSelected ? const Color(0xFF0B6259) : const Color(0xFF222222),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  }).toList(),
+                          ),
+                        );
+                      }).toList(),
                 ),
               ),
-              
+
               const SizedBox(height: 24),
-              
+
               // Phone number field
               TextFormField(
                 controller: _phoneController,
@@ -205,10 +220,7 @@ class _AirtimePageState extends State<AirtimePage> {
                 decoration: InputDecoration(
                   labelText: 'Phone Number',
                   hintText: 'Enter phone number',
-                  prefixIcon: const Icon(
-                    Icons.phone,
-                    color: Color(0xFF0B6259),
-                  ),
+                  prefixIcon: const Icon(Icons.phone, color: Color(0xFF0B6259)),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                     borderSide:
@@ -229,9 +241,9 @@ class _AirtimePageState extends State<AirtimePage> {
                         _phoneError != null
                             ? const BorderSide(color: Colors.red, width: 1.0)
                             : const BorderSide(
-                                color: Color(0xFF0B6259),
-                                width: 1.0,
-                              ),
+                              color: Color(0xFF0B6259),
+                              width: 1.0,
+                            ),
                   ),
                 ),
               ),
@@ -278,9 +290,9 @@ class _AirtimePageState extends State<AirtimePage> {
                         _amountError != null
                             ? const BorderSide(color: Colors.red, width: 1.0)
                             : const BorderSide(
-                                color: Color(0xFF0B6259),
-                                width: 1.0,
-                              ),
+                              color: Color(0xFF0B6259),
+                              width: 1.0,
+                            ),
                   ),
                 ),
               ),
@@ -299,31 +311,35 @@ class _AirtimePageState extends State<AirtimePage> {
               Wrap(
                 spacing: 10,
                 runSpacing: 10,
-                children: [10, 20, 50, 100, 200, 500, 1000].map((amount) {
-                  return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _amountController.text = amount.toString();
-                        _amountError = null;
-                      });
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[100],
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: const Color(0xFFE0E0E0)),
-                      ),
-                      child: Text(
-                        'KES $amount',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Color(0xFF0B6259),
+                children:
+                    [10, 20, 50, 100, 200, 500, 1000].map((amount) {
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _amountController.text = amount.toString();
+                            _amountError = null;
+                          });
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 8,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.grey[100],
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(color: const Color(0xFFE0E0E0)),
+                          ),
+                          child: Text(
+                            'KES $amount',
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: Color(0xFF0B6259),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  );
-                }).toList(),
+                      );
+                    }).toList(),
               ),
 
               const Spacer(),
@@ -340,7 +356,7 @@ class _AirtimePageState extends State<AirtimePage> {
       ),
     );
   }
-  
+
   Color _getProviderColor(String provider) {
     switch (provider) {
       case 'Safaricom':

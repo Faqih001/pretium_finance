@@ -54,6 +54,4 @@ class _TransactionsPageState extends State<TransactionsPage> {
       bottomNavigationBar: const BottomNavBar(currentIndex: 2),
     );
   }
-
-
 }

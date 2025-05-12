@@ -17,15 +17,15 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     _checkLoginStatus();
   }
-  
+
   Future<void> _checkLoginStatus() async {
     // Add a slight delay for splash screen visibility
     await Future.delayed(const Duration(seconds: 3));
-    
+
     // Check if user is logged in and has PIN
     final isLoggedIn = await StorageService.getLoginStatus();
     final hasPin = await StorageService.hasPin();
-    
+
     if (mounted) {
       // Navigate based on login and PIN status
       if (isLoggedIn && hasPin) {
@@ -57,9 +57,7 @@ class _SplashScreenState extends State<SplashScreen> {
             SizedBox(
               height: 170,
               width: 170,
-              child: Image.asset(
-                'assets/pretium_logo.png'
-              ),
+              child: Image.asset('assets/pretium_logo.png'),
             ),
           ],
         ),

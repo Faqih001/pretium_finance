@@ -122,7 +122,9 @@ class _WithdrawPageState extends State<WithdrawPage> {
         elevation: 0,
         iconTheme: const IconThemeData(color: Colors.black),
       ),
-      bottomNavigationBar: const BottomNavBar(currentIndex: 1), // Using index 1 since this is accessed via the middle QR button
+      bottomNavigationBar: const BottomNavBar(
+        currentIndex: 1,
+      ), // Using index 1 since this is accessed via the middle QR button
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20.0),

@@ -60,10 +60,10 @@ class _LandingPageState extends State<LandingPage> {
       setState(() {
         _isLoading = true;
       });
-      
+
       // Simulate network delay
       await Future.delayed(const Duration(milliseconds: 1000));
-      
+
       if (mounted) {
         setState(() {
           _isLoading = false;
@@ -131,9 +131,10 @@ class _LandingPageState extends State<LandingPage> {
           Padding(
             padding: const EdgeInsets.only(left: 20, right: 20, bottom: 70),
             child: CustomButton(
-              text: _currentPage == onboardingData.length - 1
-                  ? 'Get Started'
-                  : 'Next',
+              text:
+                  _currentPage == onboardingData.length - 1
+                      ? 'Get Started'
+                      : 'Next',
               fontSize: 18,
               fontWeight: FontWeight.w500,
               isLoading: _isLoading,

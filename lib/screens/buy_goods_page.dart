@@ -99,7 +99,7 @@ class _BuyGoodsPageState extends State<BuyGoodsPage> {
           backgroundColor: Color(0xFF0B6259),
         ),
       );
-      
+
       Navigator.pop(context);
     }
   }
@@ -116,7 +116,9 @@ class _BuyGoodsPageState extends State<BuyGoodsPage> {
         elevation: 0,
         iconTheme: const IconThemeData(color: Colors.black),
       ),
-      bottomNavigationBar: const BottomNavBar(currentIndex: 0), // Using dashboard index since this is accessed from dashboard
+      bottomNavigationBar: const BottomNavBar(
+        currentIndex: 0,
+      ), // Using dashboard index since this is accessed from dashboard
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -130,10 +132,7 @@ class _BuyGoodsPageState extends State<BuyGoodsPage> {
                 decoration: InputDecoration(
                   labelText: 'Till Number',
                   hintText: 'Enter merchant till number',
-                  prefixIcon: const Icon(
-                    Icons.store,
-                    color: Color(0xFF0B6259),
-                  ),
+                  prefixIcon: const Icon(Icons.store, color: Color(0xFF0B6259)),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                     borderSide:
@@ -154,9 +153,9 @@ class _BuyGoodsPageState extends State<BuyGoodsPage> {
                         _tillNumberError != null
                             ? const BorderSide(color: Colors.red, width: 1.0)
                             : const BorderSide(
-                                color: Color(0xFF0B6259),
-                                width: 1.0,
-                              ),
+                              color: Color(0xFF0B6259),
+                              width: 1.0,
+                            ),
                   ),
                 ),
               ),
@@ -203,9 +202,9 @@ class _BuyGoodsPageState extends State<BuyGoodsPage> {
                         _amountError != null
                             ? const BorderSide(color: Colors.red, width: 1.0)
                             : const BorderSide(
-                                color: Color(0xFF0B6259),
-                                width: 1.0,
-                              ),
+                              color: Color(0xFF0B6259),
+                              width: 1.0,
+                            ),
                   ),
                 ),
               ),
@@ -232,10 +231,7 @@ class _BuyGoodsPageState extends State<BuyGoodsPage> {
                   children: const [
                     Text(
                       'Available balance:',
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: Color(0xFF757575),
-                      ),
+                      style: TextStyle(fontSize: 15, color: Color(0xFF757575)),
                     ),
                     Text(
                       'KES 0.00',

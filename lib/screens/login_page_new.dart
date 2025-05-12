@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'create_pin_page.dart';
-import 'enter_pin_page.dart';
 import 'forgot_password_page.dart';
 import 'signup_page.dart';
 import 'dashboard_page.dart';
@@ -377,14 +375,12 @@ class _LoginPageState extends State<LoginPage> {
                     await StorageService.saveLoginStatus(true);
                     await StorageService.saveEmail(_emailController.text);
 
-                    // Check if user has already set up a PIN
-                    final hasPin = await StorageService.hasPin();
-
                     // Turn off loading
                     setState(() {
                       _isLoading = false;
                     });
 
+                    // In a real app, navigate to the home/dashboard screen
                     if (mounted) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
@@ -393,15 +389,11 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       );
 
-                      // Navigate based on whether user has PIN
+                      // Navigate to dashboard screen
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder:
-                              (context) =>
-                                  hasPin
-                                      ? const EnterPinPage()
-                                      : const CreatePinPage(),
+                          builder: (context) => const DashboardPage(),
                         ),
                       );
                     }

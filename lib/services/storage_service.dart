@@ -138,26 +138,26 @@ class StorageService {
     }
     return false;
   }
-  
+
   // Save user PIN
   static Future<void> savePin(String pin) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(pinKey, pin);
     await prefs.setBool(hasPinKey, true);
   }
-  
+
   // Get user PIN
   static Future<String?> getPin() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(pinKey);
   }
-  
+
   // Check if user has PIN
   static Future<bool> hasPin() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getBool(hasPinKey) ?? false;
   }
-  
+
   // Get login status
   static Future<bool> getLoginStatus() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();

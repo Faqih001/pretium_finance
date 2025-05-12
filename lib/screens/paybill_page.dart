@@ -48,7 +48,7 @@ class _PaybillPageState extends State<PaybillPage> {
       });
       isValid = false;
     }
-    
+
     // Validate account number
     if (_accountController.text.isEmpty) {
       setState(() {
@@ -111,7 +111,7 @@ class _PaybillPageState extends State<PaybillPage> {
           backgroundColor: Color(0xFF0B6259),
         ),
       );
-      
+
       Navigator.pop(context);
     }
   }
@@ -128,7 +128,9 @@ class _PaybillPageState extends State<PaybillPage> {
         elevation: 0,
         iconTheme: const IconThemeData(color: Colors.black),
       ),
-      bottomNavigationBar: const BottomNavBar(currentIndex: 0), // Using dashboard index since this is accessed from dashboard
+      bottomNavigationBar: const BottomNavBar(
+        currentIndex: 0,
+      ), // Using dashboard index since this is accessed from dashboard
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -152,14 +154,20 @@ class _PaybillPageState extends State<PaybillPage> {
                       borderSide:
                           _businessError != null
                               ? const BorderSide(color: Colors.red, width: 1.0)
-                              : const BorderSide(color: Colors.grey, width: 1.0),
+                              : const BorderSide(
+                                color: Colors.grey,
+                                width: 1.0,
+                              ),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide:
                           _businessError != null
                               ? const BorderSide(color: Colors.red, width: 1.0)
-                              : const BorderSide(color: Colors.grey, width: 1.0),
+                              : const BorderSide(
+                                color: Colors.grey,
+                                width: 1.0,
+                              ),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -167,9 +175,9 @@ class _PaybillPageState extends State<PaybillPage> {
                           _businessError != null
                               ? const BorderSide(color: Colors.red, width: 1.0)
                               : const BorderSide(
-                                  color: Color(0xFF0B6259),
-                                  width: 1.0,
-                                ),
+                                color: Color(0xFF0B6259),
+                                width: 1.0,
+                              ),
                     ),
                   ),
                 ),
@@ -199,14 +207,20 @@ class _PaybillPageState extends State<PaybillPage> {
                       borderSide:
                           _accountError != null
                               ? const BorderSide(color: Colors.red, width: 1.0)
-                              : const BorderSide(color: Colors.grey, width: 1.0),
+                              : const BorderSide(
+                                color: Colors.grey,
+                                width: 1.0,
+                              ),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide:
                           _accountError != null
                               ? const BorderSide(color: Colors.red, width: 1.0)
-                              : const BorderSide(color: Colors.grey, width: 1.0),
+                              : const BorderSide(
+                                color: Colors.grey,
+                                width: 1.0,
+                              ),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -214,9 +228,9 @@ class _PaybillPageState extends State<PaybillPage> {
                           _accountError != null
                               ? const BorderSide(color: Colors.red, width: 1.0)
                               : const BorderSide(
-                                  color: Color(0xFF0B6259),
-                                  width: 1.0,
-                                ),
+                                color: Color(0xFF0B6259),
+                                width: 1.0,
+                              ),
                     ),
                   ),
                 ),
@@ -248,14 +262,20 @@ class _PaybillPageState extends State<PaybillPage> {
                       borderSide:
                           _amountError != null
                               ? const BorderSide(color: Colors.red, width: 1.0)
-                              : const BorderSide(color: Colors.grey, width: 1.0),
+                              : const BorderSide(
+                                color: Colors.grey,
+                                width: 1.0,
+                              ),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide:
                           _amountError != null
                               ? const BorderSide(color: Colors.red, width: 1.0)
-                              : const BorderSide(color: Colors.grey, width: 1.0),
+                              : const BorderSide(
+                                color: Colors.grey,
+                                width: 1.0,
+                              ),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -263,9 +283,9 @@ class _PaybillPageState extends State<PaybillPage> {
                           _amountError != null
                               ? const BorderSide(color: Colors.red, width: 1.0)
                               : const BorderSide(
-                                  color: Color(0xFF0B6259),
-                                  width: 1.0,
-                                ),
+                                color: Color(0xFF0B6259),
+                                width: 1.0,
+                              ),
                     ),
                   ),
                 ),
@@ -283,14 +303,11 @@ class _PaybillPageState extends State<PaybillPage> {
                 // Popular paybills suggestion
                 const Text(
                   'Popular paybills',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
-                
+
                 const SizedBox(height: 16),
-                
+
                 // Row of sample paybills
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
@@ -303,7 +320,7 @@ class _PaybillPageState extends State<PaybillPage> {
                     ],
                   ),
                 ),
-                
+
                 const SizedBox(height: 24),
 
                 // Available balance
@@ -350,7 +367,7 @@ class _PaybillPageState extends State<PaybillPage> {
       ),
     );
   }
-  
+
   Widget _buildPaybillItem(String name, String number) {
     return GestureDetector(
       onTap: () {
@@ -370,18 +387,12 @@ class _PaybillPageState extends State<PaybillPage> {
           children: [
             Text(
               name,
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-              ),
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: 4),
             Text(
               number,
-              style: const TextStyle(
-                fontSize: 12,
-                color: Color(0xFF757575),
-              ),
+              style: const TextStyle(fontSize: 12, color: Color(0xFF757575)),
             ),
           ],
         ),

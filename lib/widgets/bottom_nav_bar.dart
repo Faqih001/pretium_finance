@@ -7,11 +7,8 @@ import '../screens/withdraw_page.dart';
 
 class BottomNavBar extends StatelessWidget {
   final int currentIndex;
-  
-  const BottomNavBar({
-    Key? key,
-    required this.currentIndex,
-  }) : super(key: key);
+
+  const BottomNavBar({Key? key, required this.currentIndex}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +27,11 @@ class BottomNavBar extends StatelessWidget {
       child: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(currentIndex == 0 
-              ? Icons.account_balance_wallet 
-              : Icons.account_balance_wallet_outlined),
+            icon: Icon(
+              currentIndex == 0
+                  ? Icons.account_balance_wallet
+                  : Icons.account_balance_wallet_outlined,
+            ),
             label: '',
           ),
           BottomNavigationBarItem(
@@ -47,13 +46,16 @@ class BottomNavBar extends StatelessWidget {
             label: '',
           ),
           BottomNavigationBarItem(
-            icon: Icon(currentIndex == 2 
-              ? Icons.receipt 
-              : Icons.receipt_outlined),
+            icon: Icon(
+              currentIndex == 2 ? Icons.receipt : Icons.receipt_outlined,
+            ),
             label: '',
           ),
         ],
-        currentIndex: currentIndex == 1 ? 0 : currentIndex, // Adjust since middle button is special
+        currentIndex:
+            currentIndex == 1
+                ? 0
+                : currentIndex, // Adjust since middle button is special
         selectedItemColor: const Color(0xFF0B6259),
         unselectedItemColor: Colors.grey,
         backgroundColor: Colors.white,
@@ -66,7 +68,7 @@ class BottomNavBar extends StatelessWidget {
           if (index == currentIndex) {
             return; // Already on this page
           }
-          
+
           if (index == 1) {
             // Middle button - show QR modal
             _showQRCodeModal(context);
@@ -87,7 +89,7 @@ class BottomNavBar extends StatelessWidget {
       ),
     );
   }
-  
+
   void _showQRCodeModal(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -131,7 +133,9 @@ class BottomNavBar extends StatelessWidget {
                   if (context.widget is! DepositPage) {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const DepositPage()),
+                      MaterialPageRoute(
+                        builder: (context) => const DepositPage(),
+                      ),
                     );
                   }
                 },
@@ -152,7 +156,9 @@ class BottomNavBar extends StatelessWidget {
                   if (context.widget is! FundAccountPage) {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const FundAccountPage()),
+                      MaterialPageRoute(
+                        builder: (context) => const FundAccountPage(),
+                      ),
                     );
                   }
                 },
@@ -173,13 +179,15 @@ class BottomNavBar extends StatelessWidget {
                   if (context.widget is! WithdrawPage) {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const WithdrawPage()),
+                      MaterialPageRoute(
+                        builder: (context) => const WithdrawPage(),
+                      ),
                     );
                   }
                 },
                 context: context,
               ),
-              
+
               const SizedBox(height: 20),
             ],
           ),
@@ -208,11 +216,7 @@ class BottomNavBar extends StatelessWidget {
               color: backgroundColor,
               borderRadius: BorderRadius.circular(30),
             ),
-            child: Icon(
-              icon,
-              color: iconColor,
-              size: 28,
-            ),
+            child: Icon(icon, color: iconColor, size: 28),
           ),
           const SizedBox(width: 15),
           Expanded(
@@ -228,10 +232,7 @@ class BottomNavBar extends StatelessWidget {
                 ),
                 Text(
                   subtitle,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey[600],
-                  ),
+                  style: TextStyle(fontSize: 14, color: Colors.grey[600]),
                 ),
               ],
             ),

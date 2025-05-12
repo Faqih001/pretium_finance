@@ -32,8 +32,6 @@ class _DashboardPageState extends State<DashboardPage> {
       });
     }
   }
-  
-
 
   @override
   Widget build(BuildContext context) {
@@ -179,10 +177,7 @@ class _DashboardPageState extends State<DashboardPage> {
           // Wallet balance text
           const Text(
             'Wallet Balance',
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.white70,
-            ),
+            style: TextStyle(fontSize: 16, color: Colors.white70),
           ),
           const SizedBox(height: 8),
 
@@ -206,10 +201,7 @@ class _DashboardPageState extends State<DashboardPage> {
             ),
             child: Text(
               _isBalanceVisible ? '\$ 0.00' : '\$ ****',
-              style: const TextStyle(
-                fontSize: 14,
-                color: Colors.white,
-              ),
+              style: const TextStyle(fontSize: 14, color: Colors.white),
             ),
           ),
         ],
@@ -227,15 +219,15 @@ class _DashboardPageState extends State<DashboardPage> {
             children: [
               const Text(
                 'Financial Services',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                ),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
               ),
-              
+
               // Country dropdown
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.grey[300]!),
                   borderRadius: BorderRadius.circular(20),
@@ -251,10 +243,7 @@ class _DashboardPageState extends State<DashboardPage> {
                       ),
                     ),
                     const SizedBox(width: 4),
-                    Icon(
-                      Icons.arrow_drop_down,
-                      color: Colors.grey[600],
-                    ),
+                    Icon(Icons.arrow_drop_down, color: Colors.grey[600]),
                   ],
                 ),
               ),
@@ -274,7 +263,9 @@ class _DashboardPageState extends State<DashboardPage> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const SendMoneyPage()),
+                    MaterialPageRoute(
+                      builder: (context) => const SendMoneyPage(),
+                    ),
                   );
                 },
               ),
@@ -284,7 +275,9 @@ class _DashboardPageState extends State<DashboardPage> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const BuyGoodsPage()),
+                    MaterialPageRoute(
+                      builder: (context) => const BuyGoodsPage(),
+                    ),
                   );
                 },
               ),
@@ -294,7 +287,9 @@ class _DashboardPageState extends State<DashboardPage> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const PaybillPage()),
+                    MaterialPageRoute(
+                      builder: (context) => const PaybillPage(),
+                    ),
                   );
                 },
               ),
@@ -304,7 +299,9 @@ class _DashboardPageState extends State<DashboardPage> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const AirtimePage()),
+                    MaterialPageRoute(
+                      builder: (context) => const AirtimePage(),
+                    ),
                   );
                 },
               ),
@@ -339,20 +336,10 @@ class _DashboardPageState extends State<DashboardPage> {
                 ),
               ],
             ),
-            child: Icon(
-              icon,
-              color: const Color(0xFF0B6259),
-              size: 30,
-            ),
+            child: Icon(icon, color: const Color(0xFF0B6259), size: 30),
           ),
           const SizedBox(height: 8),
-          Text(
-            label,
-            style: const TextStyle(
-              fontSize: 12,
-              color: Colors.grey,
-            ),
-          ),
+          Text(label, style: const TextStyle(fontSize: 12, color: Colors.grey)),
         ],
       ),
     );
@@ -369,10 +356,7 @@ class _DashboardPageState extends State<DashboardPage> {
             children: [
               const Text(
                 'Recent transactions',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                ),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
               ),
               TextButton(
                 onPressed: () {
@@ -385,10 +369,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 },
                 child: const Text(
                   'See all',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Color(0xFF0B6259),
-                  ),
+                  style: TextStyle(fontSize: 14, color: Color(0xFF0B6259)),
                 ),
               ),
             ],
@@ -399,16 +380,11 @@ class _DashboardPageState extends State<DashboardPage> {
           const Center(
             child: Text(
               'No transactions yet',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey,
-              ),
+              style: TextStyle(fontSize: 16, color: Colors.grey),
             ),
           ),
         ],
       ),
     );
   }
-
-
 }

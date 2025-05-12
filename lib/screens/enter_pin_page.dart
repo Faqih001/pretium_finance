@@ -35,7 +35,7 @@ class _EnterPinPageState extends State<EnterPinPage> {
       for (int i = 0; i < 4; i++) {
         _pinFilled[i] = false;
       }
-      
+
       // Fill based on current length
       for (int i = 0; i < value.length; i++) {
         if (i < 4) {
@@ -53,15 +53,13 @@ class _EnterPinPageState extends State<EnterPinPage> {
   Future<void> _verifyPin(String enteredPin) async {
     // Wait a moment to show the filled state before verifying
     await Future.delayed(const Duration(milliseconds: 200));
-    
+
     if (enteredPin == _savedPin) {
       // PIN is correct
       if (mounted) {
         // Navigate to dashboard
         Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-            builder: (context) => const DashboardPage(),
-          ),
+          MaterialPageRoute(builder: (context) => const DashboardPage()),
           (route) => false, // Remove all previous routes
         );
       }
@@ -75,7 +73,7 @@ class _EnterPinPageState extends State<EnterPinPage> {
           _pinFilled[i] = false;
         }
       });
-      
+
       // Hide error message after 2 seconds
       Future.delayed(const Duration(seconds: 2), () {
         if (mounted) {
@@ -90,12 +88,15 @@ class _EnterPinPageState extends State<EnterPinPage> {
   void _onKeyPressed(String digit) {
     if (digit == 'backspace') {
       if (_pinController.text.isNotEmpty) {
-        _pinController.text = _pinController.text.substring(0, _pinController.text.length - 1);
+        _pinController.text = _pinController.text.substring(
+          0,
+          _pinController.text.length - 1,
+        );
       }
     } else if (_pinController.text.length < 4) {
       _pinController.text = _pinController.text + digit;
     }
-    
+
     _onPinChanged(_pinController.text);
   }
 
@@ -114,11 +115,7 @@ class _EnterPinPageState extends State<EnterPinPage> {
           children: [
             const SizedBox(height: 40),
             // Lock Icon
-            const Icon(
-              Icons.lock_outline,
-              size: 60,
-              color: Colors.white,
-            ),
+            const Icon(Icons.lock_outline, size: 60, color: Colors.white),
             const SizedBox(height: 20),
             // Title
             const Text(
@@ -142,7 +139,8 @@ class _EnterPinPageState extends State<EnterPinPage> {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(color: Colors.white, width: 2),
-                    color: _pinFilled[index] ? Colors.white : Colors.transparent,
+                    color:
+                        _pinFilled[index] ? Colors.white : Colors.transparent,
                   ),
                 ),
               ),
@@ -151,10 +149,7 @@ class _EnterPinPageState extends State<EnterPinPage> {
             // Description text
             const Text(
               'Enter your PIN to access the app',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.white,
-              ),
+              style: TextStyle(fontSize: 16, color: Colors.white),
             ),
             if (_pinError)
               Padding(
@@ -206,20 +201,21 @@ class _EnterPinPageState extends State<EnterPinPage> {
         padding: EdgeInsets.zero,
         shape: const CircleBorder(),
       ),
-      child: isIcon
-          ? const Icon(
-              Icons.backspace_outlined,
-              color: Colors.white,
-              size: 28,
-            )
-          : Text(
-              digit,
-              style: const TextStyle(
-                fontSize: 36,
-                fontWeight: FontWeight.w300,
+      child:
+          isIcon
+              ? const Icon(
+                Icons.backspace_outlined,
                 color: Colors.white,
+                size: 28,
+              )
+              : Text(
+                digit,
+                style: const TextStyle(
+                  fontSize: 36,
+                  fontWeight: FontWeight.w300,
+                  color: Colors.white,
+                ),
               ),
-            ),
     );
   }
 }
