@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/bottom_nav_bar.dart';
+import '../services/storage_service.dart';
+import '../models/transaction.dart';
+import 'dart:math';
 
 class BuyGoodsPage extends StatefulWidget {
   const BuyGoodsPage({super.key});

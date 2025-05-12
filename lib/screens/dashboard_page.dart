@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../services/storage_service.dart';
 import '../widgets/bottom_nav_bar.dart';
+import '../models/transaction.dart';
 import 'transactions_page.dart';
 import 'send_money_page.dart';
 import 'buy_goods_page.dart';
@@ -18,18 +20,40 @@ class DashboardPage extends StatefulWidget {
 class _DashboardPageState extends State<DashboardPage> {
   String _firstName = '';
   bool _isBalanceVisible = false;
+  double _walletBalance = 0.0;
+  List<Transaction> _recentTransactions = [];
 
   @override
   void initState() {
     super.initState();
     _loadUserData();
+    _loadWalletBalance();
+    _loadRecentTransactions();
   }
 
   Future<void> _loadUserData() async {
     final userData = await StorageService.getUserData();
-    if (userData != null) {
+    if (userData != null && mounted) {
       setState(() {
         _firstName = userData['firstName'] ?? '';
+      });
+    }
+  }
+  
+  Future<void> _loadWalletBalance() async {
+    final balance = await StorageService.getWalletBalance();
+    if (mounted) {
+      setState(() {
+        _walletBalance = balance;
+      });
+    }
+  }
+  
+  Future<void> _loadRecentTransactions() async {
+    final transactions = await StorageService.getRecentTransactions(3);
+    if (mounted) {
+      setState(() {
+        _recentTransactions = transactions;
       });
     }
   }
@@ -194,7 +218,9 @@ class _DashboardPageState extends State<DashboardPage> {
 
           // Balance amount
           Text(
-            _isBalanceVisible ? 'KES 0.00' : 'KES ****',
+            _isBalanceVisible 
+              ? 'KES ${_walletBalance.toStringAsFixed(2)}' 
+              : 'KES ****',
             style: const TextStyle(
               fontSize: 32,
               fontWeight: FontWeight.bold,
@@ -203,7 +229,7 @@ class _DashboardPageState extends State<DashboardPage> {
           ),
           const SizedBox(height: 12),
 
-          // Dollar equivalent amount
+          // Dollar equivalent amount (simple conversion for demo)
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
@@ -211,7 +237,9 @@ class _DashboardPageState extends State<DashboardPage> {
               borderRadius: BorderRadius.circular(50),
             ),
             child: Text(
-              _isBalanceVisible ? '\$ 0.00' : '\$ ****',
+              _isBalanceVisible 
+                ? '\$ ${(_walletBalance / 130).toStringAsFixed(2)}' 
+                : '\$ ****',
               style: const TextStyle(fontSize: 14, color: Colors.white),
             ),
           ),
@@ -376,7 +404,7 @@ class _DashboardPageState extends State<DashboardPage> {
                     MaterialPageRoute(
                       builder: (context) => const TransactionsPage(),
                     ),
-                  );
+                  ).then((_) => _loadRecentTransactions());
                 },
                 child: const Text(
                   'See all',
@@ -388,12 +416,142 @@ class _DashboardPageState extends State<DashboardPage> {
 
           // Empty state or transaction list
           const SizedBox(height: 16),
-          const Center(
-            child: Text(
-              'No transactions yet',
-              style: TextStyle(fontSize: 16, color: Colors.grey),
-            ),
-          ),
+          _recentTransactions.isEmpty
+              ? const Center(
+                  child: Text(
+                    'No transactions yet',
+                    style: TextStyle(fontSize: 16, color: Colors.grey),
+                  ),
+                )
+              : Column(
+                  children: _recentTransactions.map((transaction) {
+                    IconData transactionIcon;
+                    String transactionTitle;
+                    
+                    switch (transaction.type) {
+                      case 'send':
+                        transactionIcon = Icons.send;
+                        transactionTitle = 'Sent to ${transaction.recipient}';
+                        break;
+                      case 'buy_goods':
+                        transactionIcon = Icons.shopping_cart_outlined;
+                        transactionTitle = 'Purchased from ${transaction.recipient}';
+                        break;
+                      case 'paybill':
+                        transactionIcon = Icons.receipt_long_outlined;
+                        transactionTitle = 'Paid bill to ${transaction.recipient}';
+                        break;
+                      case 'airtime':
+                        transactionIcon = Icons.phone_android_outlined;
+                        transactionTitle = 'Airtime for ${transaction.recipient}';
+                        break;
+                      default:
+                        transactionIcon = Icons.swap_horiz;
+                        transactionTitle = transaction.recipient;
+                    }
+                    
+                    Color statusColor;
+                    switch (transaction.status) {
+                      case 'completed':
+                        statusColor = const Color(0xFF0B6259);
+                        break;
+                      case 'failed':
+                        statusColor = Colors.red;
+                        break;
+                      case 'pending':
+                        statusColor = Colors.orange;
+                        break;
+                      default:
+                        statusColor = Colors.grey;
+                    }
+                    
+                    return Container(
+                      margin: const EdgeInsets.only(bottom: 12),
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.1),
+                            spreadRadius: 1,
+                            blurRadius: 5,
+                            offset: const Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: statusColor.withOpacity(0.1),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              transactionIcon,
+                              color: statusColor,
+                              size: 20,
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  transactionTitle,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  DateFormat('MMM d, y • h:mm a').format(transaction.timestamp),
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.grey[600],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                'KES ${transaction.amount.toStringAsFixed(2)}',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: statusColor,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 6, 
+                                  vertical: 2,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: statusColor.withOpacity(0.1),
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                child: Text(
+                                  transaction.status.toUpperCase(),
+                                  style: TextStyle(
+                                    fontSize: 9,
+                                    color: statusColor,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  }).toList(),
+                ),
         ],
       ),
     );

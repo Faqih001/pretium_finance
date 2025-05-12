@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/bottom_nav_bar.dart';
+import '../services/storage_service.dart';
+import '../models/transaction.dart';
+import 'dart:math';
 
 class SendMoneyPage extends StatefulWidget {
   const SendMoneyPage({super.key});
@@ -79,23 +82,55 @@ class _SendMoneyPageState extends State<SendMoneyPage> {
       _isLoading = true;
     });
 
-    // Simulate network request
-    await Future.delayed(const Duration(seconds: 2));
-
-    if (mounted) {
-      setState(() {
-        _isLoading = false;
-      });
-
-      // Show success message and go back
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Money sent successfully!'),
-          backgroundColor: Color(0xFF0B6259),
-        ),
+    try {
+      // Parse amount
+      double amount = double.parse(_amountController.text);
+      
+      // Generate a random ID for the transaction
+      String transactionId = 'send_${DateTime.now().millisecondsSinceEpoch}_${Random().nextInt(1000)}';
+      
+      // Create transaction object
+      Transaction transaction = Transaction(
+        id: transactionId,
+        type: 'send',
+        recipient: _recipientController.text,
+        amount: amount,
+        timestamp: DateTime.now(),
+        status: 'completed',
       );
+      
+      // Save transaction
+      await StorageService.saveTransaction(transaction);
+      
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
 
-      Navigator.pop(context);
+        // Show success message and go back
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Money sent successfully!'),
+            backgroundColor: Color(0xFF0B6259),
+          ),
+        );
+
+        Navigator.pop(context);
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+        
+        // Show error message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error processing transfer: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     }
   }
 
