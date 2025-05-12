@@ -15,6 +15,13 @@ class _SignupPageState extends State<SignupPage> {
   final _passwordController = TextEditingController();
   bool _obscurePassword = true;
   bool _acceptTerms = false;
+  
+  // Error messages
+  String? _firstNameError;
+  String? _lastNameError;
+  String? _emailError;
+  String? _passwordError;
+  String? _termsError;
 
   @override
   void dispose() {
@@ -74,13 +81,38 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
+                    borderSide: _firstNameError != null 
+                        ? const BorderSide(color: Colors.red, width: 1.0) 
+                        : BorderSide.none,
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: _firstNameError != null 
+                        ? const BorderSide(color: Colors.red, width: 1.0) 
+                        : BorderSide.none,
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: _firstNameError != null 
+                        ? const BorderSide(color: Colors.red, width: 1.0) 
+                        : const BorderSide(color: Color(0xFF0B6259), width: 1.0),
                   ),
                   filled: true,
                   fillColor: Colors.grey[100],
                   contentPadding: const EdgeInsets.symmetric(vertical: 16),
                 ),
               ),
+              if (_firstNameError != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0, left: 12.0),
+                  child: Text(
+                    _firstNameError!,
+                    style: const TextStyle(
+                      color: Colors.red,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
 
               const SizedBox(height: 16),
 
@@ -95,13 +127,38 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
+                    borderSide: _lastNameError != null 
+                        ? const BorderSide(color: Colors.red, width: 1.0) 
+                        : BorderSide.none,
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: _lastNameError != null 
+                        ? const BorderSide(color: Colors.red, width: 1.0) 
+                        : BorderSide.none,
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: _lastNameError != null 
+                        ? const BorderSide(color: Colors.red, width: 1.0) 
+                        : const BorderSide(color: Color(0xFF0B6259), width: 1.0),
                   ),
                   filled: true,
                   fillColor: Colors.grey[100],
                   contentPadding: const EdgeInsets.symmetric(vertical: 16),
                 ),
               ),
+              if (_lastNameError != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0, left: 12.0),
+                  child: Text(
+                    _lastNameError!,
+                    style: const TextStyle(
+                      color: Colors.red,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
 
               const SizedBox(height: 16),
 
