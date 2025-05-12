@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import '../services/storage_service.dart';
+import '../widgets/bottom_nav_bar.dart';
+import 'transactions_page.dart';
+import 'send_money_page.dart';
+import 'buy_goods_page.dart';
+import 'paybill_page.dart';
+import 'airtime_page.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -26,6 +32,8 @@ class _DashboardPageState extends State<DashboardPage> {
       });
     }
   }
+  
+
 
   @override
   Widget build(BuildContext context) {
@@ -47,57 +55,64 @@ class _DashboardPageState extends State<DashboardPage> {
             _buildRecentTransactions(),
 
             const Spacer(),
-
-            // Bottom navigation
-            _buildBottomNavigation(),
           ],
         ),
       ),
+      bottomNavigationBar: BottomNavBar(currentIndex: 0),
     );
   }
 
   Widget _buildAppBar() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-      color: const Color(0xFF0B6259),
+    return Padding(
+      padding: const EdgeInsets.all(16),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // Avatar circle with first letter
-          Container(
-            width: 50,
-            height: 50,
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.circle,
-            ),
-            child: Center(
-              child: Text(
-                _firstName.isNotEmpty ? _firstName[0].toUpperCase() : 'U',
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF0B6259),
+          Row(
+            children: [
+              // User avatar
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  shape: BoxShape.circle,
+                ),
+                child: Center(
+                  child: Text(
+                    _firstName.isNotEmpty ? _firstName[0].toUpperCase() : 'U',
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey,
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-          const SizedBox(width: 16),
-          // Greeting text
-          Expanded(
-            child: Text(
-              'Hello, $_firstName 👋',
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
+              const SizedBox(width: 12),
+
+              // Greeting
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Hello, ${_firstName.isNotEmpty ? _firstName : 'User'} 👋',
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ],
               ),
-            ),
+            ],
           ),
+
           // Notification bell
           IconButton(
-            icon: const Icon(Icons.notifications_outlined, color: Colors.white),
+            icon: const Icon(Icons.notifications_none, size: 28),
             onPressed: () {
-              // Handle notifications
+              // TODO: Implement notification view
             },
           ),
         ],
@@ -107,11 +122,22 @@ class _DashboardPageState extends State<DashboardPage> {
 
   Widget _buildWalletCard() {
     return Container(
-      margin: const EdgeInsets.all(16),
+      margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: const Color(0xFF0B6259),
-        borderRadius: BorderRadius.circular(12),
+        gradient: const LinearGradient(
+          colors: [Color(0xFF0B6259), Color(0xFF0B6666)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF0B6259).withOpacity(0.3),
+            blurRadius: 10,
+            offset: const Offset(0, 5),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -119,7 +145,7 @@ class _DashboardPageState extends State<DashboardPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // Wallet icon
+              // Currency icon
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
@@ -127,72 +153,61 @@ class _DashboardPageState extends State<DashboardPage> {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: const Icon(
-                  Icons.account_balance_wallet_outlined,
+                  Icons.currency_exchange,
                   color: Colors.white,
+                  size: 20,
                 ),
               ),
+
               // Eye icon to toggle balance visibility
-              GestureDetector(
-                onTap: () {
+              IconButton(
+                icon: Icon(
+                  _isBalanceVisible ? Icons.visibility : Icons.visibility_off,
+                  color: Colors.white,
+                  size: 24,
+                ),
+                onPressed: () {
                   setState(() {
                     _isBalanceVisible = !_isBalanceVisible;
                   });
                 },
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Icon(
-                    _isBalanceVisible ? Icons.visibility : Icons.visibility_off,
-                    color: Colors.white,
-                  ),
-                ),
               ),
             ],
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 20),
+
+          // Wallet balance text
           const Text(
             'Wallet Balance',
-            style: TextStyle(fontSize: 16, color: Colors.white),
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.white70,
+            ),
           ),
           const SizedBox(height: 8),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.baseline,
-            textBaseline: TextBaseline.alphabetic,
-            children: [
-              const Text(
-                'KES',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white,
-                ),
-              ),
-              const SizedBox(width: 8),
-              Text(
-                _isBalanceVisible ? '0.00' : '***.**',
-                style: const TextStyle(
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-            ],
+
+          // Balance amount
+          Text(
+            _isBalanceVisible ? 'KES 0.00' : 'KES ****',
+            style: const TextStyle(
+              fontSize: 32,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 12),
+
+          // Dollar equivalent amount
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
               color: Colors.white.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(50),
             ),
-            child: const Text(
-              '\$ 0.00',
-              style: TextStyle(
+            child: Text(
+              _isBalanceVisible ? '\$ 0.00' : '\$ ****',
+              style: const TextStyle(
                 fontSize: 14,
-                fontWeight: FontWeight.w500,
                 color: Colors.white,
               ),
             ),
@@ -203,206 +218,197 @@ class _DashboardPageState extends State<DashboardPage> {
   }
 
   Widget _buildFinancialServices() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            spreadRadius: 0,
-          ),
-        ],
-      ),
-      child: Column(
-        children: [
-          Row(
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 24, 16, 16),
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(
                 'Financial Services',
                 style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF222222),
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
-              Row(
-                children: [
-                  const Text(
-                    'Kenya',
-                    style: TextStyle(fontSize: 14, color: Color(0xFF0B6259)),
-                  ),
-                  IconButton(
-                    icon: const Icon(
-                      Icons.keyboard_arrow_down,
-                      color: Color(0xFF0B6259),
+              
+              // Country dropdown
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey[300]!),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Row(
+                  children: [
+                    const Text(
+                      'Kenya',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Color(0xFF0B6259),
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                    onPressed: () {
-                      // Show country selection
-                    },
-                  ),
-                ],
+                    const SizedBox(width: 4),
+                    Icon(
+                      Icons.arrow_drop_down,
+                      color: Colors.grey[600],
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
-          const SizedBox(height: 20),
-          Row(
+        ),
+
+        // Service icons grid
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              _buildServiceButton(Icons.send, 'Send Money'),
-              _buildServiceButton(Icons.shopping_basket_outlined, 'Buy Goods'),
-              _buildServiceButton(Icons.receipt_long_outlined, 'Paybill'),
+              _buildServiceItem(
+                icon: Icons.send,
+                label: 'Send Money',
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const SendMoneyPage()),
+                  );
+                },
+              ),
+              _buildServiceItem(
+                icon: Icons.shopping_cart_outlined,
+                label: 'Buy Goods',
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const BuyGoodsPage()),
+                  );
+                },
+              ),
+              _buildServiceItem(
+                icon: Icons.receipt_long_outlined,
+                label: 'Paybill',
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const PaybillPage()),
+                  );
+                },
+              ),
+              _buildServiceItem(
+                icon: Icons.phone_android_outlined,
+                label: 'Airtime',
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const AirtimePage()),
+                  );
+                },
+              ),
             ],
-          ),
-          const SizedBox(height: 24),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              _buildServiceButton(Icons.smartphone, 'Airtime'),
-              const SizedBox(width: 16),
-              // Add more services as needed
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildServiceButton(IconData icon, String label) {
-    return Column(
-      children: [
-        Container(
-          width: 60,
-          height: 60,
-          decoration: BoxDecoration(
-            color: const Color(0xFFF5F7F6),
-            borderRadius: BorderRadius.circular(30),
-            border: Border.all(
-              color: const Color(0xFF0B6259).withOpacity(0.2),
-              width: 1,
-            ),
-          ),
-          child: Icon(icon, size: 28, color: const Color(0xFF0B6259)),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.w500,
-            color: Color(0xFF222222),
           ),
         ),
       ],
     );
   }
 
-  Widget _buildRecentTransactions() {
-    return Container(
-      margin: const EdgeInsets.all(16),
+  Widget _buildServiceItem({
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                'Recent transactions',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF222222),
+          Container(
+            width: 60,
+            height: 60,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(15),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.1),
+                  spreadRadius: 1,
+                  blurRadius: 5,
+                  offset: const Offset(0, 3),
                 ),
-              ),
-              TextButton(
-                onPressed: () {
-                  // Navigate to all transactions
-                },
-                child: const Text(
-                  'See all',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Color(0xFF0B6259),
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-            ],
+              ],
+            ),
+            child: Icon(
+              icon,
+              color: const Color(0xFF0B6259),
+              size: 30,
+            ),
           ),
-          const SizedBox(height: 40),
-          // Empty state for transactions
-          Column(
-            children: [
-              Icon(Icons.receipt_long, size: 60, color: Colors.grey[350]),
-              const SizedBox(height: 16),
-              const Text(
-                'No recent transactions',
-                style: TextStyle(fontSize: 16, color: Color(0xFF999999)),
-              ),
-            ],
+          const SizedBox(height: 8),
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: 12,
+              color: Colors.grey,
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildBottomNavigation() {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            spreadRadius: 0,
-            offset: const Offset(0, -2),
-          ),
-        ],
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+  Widget _buildRecentTransactions() {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
         children: [
-          IconButton(
-            icon: const Icon(
-              Icons.account_balance_wallet_outlined,
-              color: Color(0xFF0B6259),
-            ),
-            onPressed: () {
-              // Already on wallet page
-            },
-          ),
-          Container(
-            width: 60,
-            height: 60,
-            decoration: BoxDecoration(
-              color: const Color(0xFF0B6259),
-              shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                  color: const Color(0xFF0B6259).withOpacity(0.3),
-                  blurRadius: 8,
-                  spreadRadius: 2,
+          // Header
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'Recent transactions',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
                 ),
-              ],
-            ),
-            child: const Icon(
-              Icons.qr_code_scanner,
-              color: Colors.white,
-              size: 30,
-            ),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const TransactionsPage(),
+                    ),
+                  );
+                },
+                child: const Text(
+                  'See all',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Color(0xFF0B6259),
+                  ),
+                ),
+              ),
+            ],
           ),
-          IconButton(
-            icon: const Icon(Icons.menu, color: Colors.grey),
-            onPressed: () {
-              // Open menu
-            },
+
+          // Empty state or transaction list
+          const SizedBox(height: 16),
+          const Center(
+            child: Text(
+              'No transactions yet',
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.grey,
+              ),
+            ),
           ),
         ],
       ),
     );
   }
+
+
 }

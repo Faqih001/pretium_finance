@@ -369,7 +369,7 @@ class _VerifyAccountPageState extends State<VerifyAccountPage> {
                 bottom:
                     _keyboardVisible
                         ? MediaQuery.of(context).viewInsets.bottom
-                        : 70,
+                        : 10,
                 left: 16,
                 right: 16,
                 child: Container(
