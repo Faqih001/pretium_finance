@@ -50,10 +50,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               // Instruction text
               const Text(
                 'Enter your email to receive a password reset code',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Color(0xFF757575),
-                ),
+                style: TextStyle(fontSize: 16, color: Color(0xFF757575)),
               ),
 
               const SizedBox(height: 40),
@@ -99,19 +96,25 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
                     // Check if email exists in our stored users
                     final userData = await StorageService.getUserData();
-                    if (userData != null && userData['email'] == _emailController.text) {
+                    if (userData != null &&
+                        userData['email'] == _emailController.text) {
                       // Save password reset request
-                      await StorageService.savePasswordResetRequest(_emailController.text);
-                      
+                      await StorageService.savePasswordResetRequest(
+                        _emailController.text,
+                      );
+
                       // Get reset code to display in snackbar (in real app, this would be sent via email)
-                      final resetData = await StorageService.getPasswordResetRequest();
+                      final resetData =
+                          await StorageService.getPasswordResetRequest();
                       final resetCode = resetData?['code'] ?? '000000';
 
                       if (mounted) {
                         // Show success message with the reset code
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text('Reset code sent: $resetCode (for demo only)'),
+                            content: Text(
+                              'Reset code sent: $resetCode (for demo only)',
+                            ),
                             backgroundColor: const Color(0xFF0B6259),
                             duration: const Duration(seconds: 5),
                           ),
@@ -122,7 +125,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       if (mounted) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content: Text('Email not found. Please check your email address.'),
+                            content: Text(
+                              'Email not found. Please check your email address.',
+                            ),
                             backgroundColor: Colors.red,
                           ),
                         );

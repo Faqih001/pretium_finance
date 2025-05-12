@@ -58,10 +58,7 @@ class _SignupPageState extends State<SignupPage> {
               // Subtitle
               const Text(
                 'Simplify your crypto payments with us',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Color(0xFF757575),
-                ),
+                style: TextStyle(fontSize: 16, color: Color(0xFF757575)),
               ),
 
               const SizedBox(height: 30),
@@ -220,7 +217,9 @@ class _SignupPageState extends State<SignupPage> {
                     if (!_acceptTerms) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                          content: Text('Please accept the terms and conditions'),
+                          content: Text(
+                            'Please accept the terms and conditions',
+                          ),
                           backgroundColor: Colors.red,
                         ),
                       );
@@ -234,16 +233,18 @@ class _SignupPageState extends State<SignupPage> {
                       email: _emailController.text,
                       password: _passwordController.text,
                     );
-                    
+
                     // Show success message
                     if (mounted) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                          content: Text('Account created successfully! Please login.'),
+                          content: Text(
+                            'Account created successfully! Please login.',
+                          ),
                           backgroundColor: Color(0xFF0B6259),
                         ),
                       );
-                      
+
                       // Navigate back to login page after short delay
                       Future.delayed(const Duration(seconds: 2), () {
                         if (mounted) {

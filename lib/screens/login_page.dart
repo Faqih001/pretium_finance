@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'forgot_password_page.dart';
 import 'signup_page.dart';
+import 'dashboard_page.dart';
 import '../services/storage_service.dart';
 
 class LoginPage extends StatefulWidget {
@@ -15,13 +16,13 @@ class _LoginPageState extends State<LoginPage> {
   final _passwordController = TextEditingController();
   bool _rememberMe = false;
   bool _obscurePassword = true;
-  
+
   @override
   void initState() {
     super.initState();
     _loadSavedEmail();
   }
-  
+
   Future<void> _loadSavedEmail() async {
     final email = await StorageService.getEmail();
     if (email != null) {
@@ -151,10 +152,20 @@ class _LoginPageState extends State<LoginPage> {
                     children: [
                       Checkbox(
                         value: _rememberMe,
-                        onChanged: (value) {
+                        onChanged: (value) async {
                           setState(() {
                             _rememberMe = value ?? false;
                           });
+
+                          // If remember me is checked, save the email
+                          if (_rememberMe && _emailController.text.isNotEmpty) {
+                            await StorageService.saveEmail(
+                              _emailController.text,
+                            );
+                          } else if (!_rememberMe) {
+                            // If unchecked, clear saved email
+                            await StorageService.saveEmail('');
+                          }
                         },
                         activeColor: const Color(0xFF0B6259),
                         shape: RoundedRectangleBorder(
@@ -173,7 +184,7 @@ class _LoginPageState extends State<LoginPage> {
                   TextButton(
                     onPressed: () {
                       Navigator.push(
-                        context, 
+                        context,
                         MaterialPageRoute(
                           builder: (context) => const ForgotPasswordPage(),
                         ),
@@ -199,7 +210,8 @@ class _LoginPageState extends State<LoginPage> {
                 child: ElevatedButton(
                   onPressed: () async {
                     // Validate inputs
-                    if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
+                    if (_emailController.text.isEmpty ||
+                        _passwordController.text.isEmpty) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text('Please enter both email and password'),
@@ -211,16 +223,15 @@ class _LoginPageState extends State<LoginPage> {
 
                     // Get user data from storage
                     final userData = await StorageService.getUserData();
-                    
+
                     // Check if credentials match
-                    if (userData != null && 
+                    if (userData != null &&
                         userData['email'] == _emailController.text &&
                         userData['password'] == _passwordController.text) {
-                      
                       // Save login status and current email
                       await StorageService.saveLoginStatus(true);
                       await StorageService.saveEmail(_emailController.text);
-                      
+
                       // In a real app, navigate to the home/dashboard screen
                       if (mounted) {
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -229,9 +240,14 @@ class _LoginPageState extends State<LoginPage> {
                             backgroundColor: Color(0xFF0B6259),
                           ),
                         );
-                        
-                        // TODO: Navigate to dashboard/home screen
-                        // For now, we'll just show a success message
+
+                        // Navigate to dashboard screen
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const DashboardPage(),
+                          ),
+                        );
                       }
                     } else {
                       // Invalid credentials
