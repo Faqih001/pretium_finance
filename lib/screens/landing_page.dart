@@ -1,5 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:smooth_page_indicator/smooth_pa          SmoothPageIndicator(
+            controller: _pageController,
+            count: onboardingData.length,
+            effect: const WormEffect(
+              dotHeight: 12,
+              dotWidth: 12,
+              activeDotHeight: 12,
+              activeDotWidth: 32,
+              activeDotColor: Color(0xFF0B6259),
+              dotColor: Color(0xFFDDDDDD),
+            ),
+          ),or.dart';
 import 'login_page.dart';
 
 class LandingPage extends StatefulWidget {
