@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/storage_service.dart';
+import '../widgets/custom_button.dart';
 import 'reset_password_page.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
@@ -12,6 +13,7 @@ class ForgotPasswordPage extends StatefulWidget {
 class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final _emailController = TextEditingController();
   String? _emailError;
+  bool _isLoading = false;
 
   // Method to navigate to reset password page
   void _navigateToResetPasswordPage() {
@@ -118,45 +120,52 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               const SizedBox(height: 40),
 
               // Send Reset Code Button
-              SizedBox(
-                width: double.infinity,
-                height: 56,
-                child: ElevatedButton(
-                  onPressed: () async {
-                    // Validate email
+              CustomButton(
+                text: 'Send Reset Code',
+                isLoading: _isLoading,
+                onPressed: () async {
+                  // Validate email
+                  setState(() {
+                    _emailError = null; // Reset error
+                  });
+
+                  if (_emailController.text.isEmpty) {
                     setState(() {
-                      _emailError = null; // Reset error
+                      _emailError = 'Please enter your email';
                     });
+                    return;
+                  }
 
-                    if (_emailController.text.isEmpty) {
-                      setState(() {
-                        _emailError = 'Please enter your email';
-                      });
-                      return;
-                    }
+                  // Check for valid email format
+                  final bool emailValid = RegExp(
+                    r'^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$',
+                  ).hasMatch(_emailController.text);
+                  if (!emailValid) {
+                    setState(() {
+                      _emailError = 'Please enter a valid email';
+                    });
+                    return;
+                  }
 
-                    // Check for valid email format
-                    final bool emailValid = RegExp(
-                      r'^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$',
-                    ).hasMatch(_emailController.text);
-                    if (!emailValid) {
-                      setState(() {
-                        _emailError = 'Please enter a valid email';
-                      });
-                      return;
-                    }
+                  // Show loading indicator
+                  setState(() {
+                    _isLoading = true;
+                  });
 
-                    // Check if email exists in our stored users
-                    final userData = await StorageService.getUserData();
-                    if (userData != null &&
-                        userData['email'] == _emailController.text) {
-                      // Save password reset request
-                      await StorageService.savePasswordResetRequest(
-                        _emailController.text,
-                      );
+                  // Check if email exists in our stored users
+                  final userData = await StorageService.getUserData();
+                  if (userData != null &&
+                      userData['email'] == _emailController.text) {
+                    // Save password reset request
+                    await StorageService.savePasswordResetRequest(
+                      _emailController.text,
+                    );
 
-                      // Get reset code (in a real app, this would be sent via email)
-                      await StorageService.getPasswordResetRequest();
+                    // Get reset code (in a real app, this would be sent via email)
+                    await StorageService.getPasswordResetRequest();
+                    
+                    // Simulate network delay
+                    await Future.delayed(const Duration(milliseconds: 1500));
 
                       if (mounted) {
                         // Show success dialog with the reset code

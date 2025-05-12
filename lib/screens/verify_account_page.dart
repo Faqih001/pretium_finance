@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../services/storage_service.dart';
+import '../widgets/custom_button.dart';
 import 'login_page.dart';
 
 class VerifyAccountPage extends StatefulWidget {
@@ -30,6 +31,7 @@ class _VerifyAccountPageState extends State<VerifyAccountPage> {
   bool _notificationVisible = false;
   String _notificationText = '';
   String _selectedCountry = 'Kenya';
+  bool _isLoading = false;
   final List<String> _countries = [
     'Kenya',
     'Uganda',
@@ -123,7 +125,7 @@ class _VerifyAccountPageState extends State<VerifyAccountPage> {
     _showNotification('Verification code resent');
   }
 
-  void _verifyEmail() {
+  Future<void> _verifyEmail() async {
     // Validate verification code
     if (_verificationCodeController.text.isEmpty) {
       setState(() {
@@ -141,21 +143,31 @@ class _VerifyAccountPageState extends State<VerifyAccountPage> {
       return;
     }
 
+    // Set loading state
+    setState(() {
+      _isLoading = true;
+    });
+
+    // Simulate network delay
+    await Future.delayed(const Duration(seconds: 2));
+
     // Save user data since email is now verified
-    StorageService.saveUserData(
+    await StorageService.saveUserData(
       firstName: widget.firstName,
       lastName: widget.lastName,
       email: widget.email,
       password: widget.password,
     );
 
-    // Navigate to login page with fromEmailVerification=true
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(
-        builder: (context) => const LoginPage(fromEmailVerification: true),
-      ),
-      (route) => false,
-    );
+    if (mounted) {
+      // Navigate to login page with fromEmailVerification=true
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+          builder: (context) => const LoginPage(fromEmailVerification: true),
+        ),
+        (route) => false,
+      );
+    }
   }
 
   @override
@@ -312,26 +324,10 @@ class _VerifyAccountPageState extends State<VerifyAccountPage> {
                   const SizedBox(height: 40),
 
                   // Verify Account Button
-                  SizedBox(
-                    width: double.infinity,
-                    height: 56,
-                    child: ElevatedButton(
-                      onPressed: _verifyEmail,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF0B6259),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      child: const Text(
-                        'Verify Account',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
+                  CustomButton(
+                    text: 'Verify Account',
+                    onPressed: _verifyEmail,
+                    isLoading: _isLoading,
                   ),
 
                   const SizedBox(height: 24),
