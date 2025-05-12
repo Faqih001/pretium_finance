@@ -244,7 +244,6 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                 isLoading: _isLoading,
                 onPressed: _resetPassword,
               ),
-              ),
             ],
           ),
         ),
@@ -303,6 +302,11 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       return;
     }
 
+    // Show loading indicator
+    setState(() {
+      _isLoading = true;
+    });
+
     // Verify reset code
     final codeValid = await StorageService.verifyResetCode(
       widget.email,
@@ -311,6 +315,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
     if (!codeValid) {
       setState(() {
+        _isLoading = false;
         _resetCodeError = 'Invalid reset code. Please try again.';
       });
       return;
@@ -321,6 +326,11 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       widget.email,
       _newPasswordController.text,
     );
+
+    // Turn off loading state
+    setState(() {
+      _isLoading = false;
+    });
 
     if (success && mounted) {
       // Show success message
@@ -338,7 +348,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
           // Navigate to login page, removing all previous routes
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
-              builder: (context) => const LoginPage(),
+              builder: (context) => const LoginPage(fromPasswordReset: true),
             ),
             (route) => false,
           );

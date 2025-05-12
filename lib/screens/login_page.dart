@@ -3,6 +3,7 @@ import 'forgot_password_page.dart';
 import 'signup_page.dart';
 import 'dashboard_page.dart';
 import '../services/storage_service.dart';
+import '../widgets/custom_button.dart';
 
 class LoginPage extends StatefulWidget {
   final bool fromPasswordReset;
@@ -23,6 +24,7 @@ class _LoginPageState extends State<LoginPage> {
   final _passwordController = TextEditingController();
   bool _rememberMe = false;
   bool _obscurePassword = true;
+  bool _isLoading = false;
   String? _emailError;
   String? _passwordError;
 
