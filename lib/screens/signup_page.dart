@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/storage_service.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -22,6 +23,22 @@ class _SignupPageState extends State<SignupPage> {
   String? _emailError;
   String? _passwordError;
   String? _termsError;
+  
+  // URL for terms and conditions
+  final Uri _termsUrl = Uri.parse('https://pretium.africa/term-of-use');
+  
+  Future<void> _launchTermsUrl() async {
+    if (!await launchUrl(_termsUrl, mode: LaunchMode.inAppWebView)) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Could not launch terms and conditions'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
+  }
 
   @override
   void dispose() {
