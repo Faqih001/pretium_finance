@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../services/storage_service.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'verify_account_page.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -419,31 +420,19 @@ class _SignupPageState extends State<SignupPage> {
                       return;
                     }
 
-                    // Save user data to local storage
-                    await StorageService.saveUserData(
-                      firstName: _firstNameController.text,
-                      lastName: _lastNameController.text,
-                      email: _emailController.text,
-                      password: _passwordController.text,
-                    );
-
-                    // Show success message
+                    // Navigate to verify account page
                     if (mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text(
-                            'Account created successfully! Please login.',
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => VerifyAccountPage(
+                            firstName: _firstNameController.text,
+                            lastName: _lastNameController.text,
+                            email: _emailController.text,
+                            password: _passwordController.text,
                           ),
-                          backgroundColor: Color(0xFF0B6259),
                         ),
                       );
-
-                      // Navigate back to login page after short delay
-                      Future.delayed(const Duration(seconds: 2), () {
-                        if (mounted) {
-                          Navigator.pop(context);
-                        }
-                      });
                     }
                   },
                   style: ElevatedButton.styleFrom(
