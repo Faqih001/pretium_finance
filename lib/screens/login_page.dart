@@ -101,13 +101,38 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
+                    borderSide: _emailError != null 
+                        ? const BorderSide(color: Colors.red, width: 1.0) 
+                        : BorderSide.none,
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: _emailError != null 
+                        ? const BorderSide(color: Colors.red, width: 1.0) 
+                        : BorderSide.none,
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: _emailError != null 
+                        ? const BorderSide(color: Colors.red, width: 1.0) 
+                        : const BorderSide(color: Color(0xFF0B6259), width: 1.0),
                   ),
                   filled: true,
                   fillColor: Colors.grey[100],
                   contentPadding: const EdgeInsets.symmetric(vertical: 16),
                 ),
               ),
+              if (_emailError != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0, left: 12.0),
+                  child: Text(
+                    _emailError!,
+                    style: const TextStyle(
+                      color: Colors.red,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
 
               const SizedBox(height: 16),
 
@@ -136,13 +161,38 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
+                    borderSide: _passwordError != null 
+                        ? const BorderSide(color: Colors.red, width: 1.0) 
+                        : BorderSide.none,
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: _passwordError != null 
+                        ? const BorderSide(color: Colors.red, width: 1.0) 
+                        : BorderSide.none,
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: _passwordError != null 
+                        ? const BorderSide(color: Colors.red, width: 1.0) 
+                        : const BorderSide(color: Color(0xFF0B6259), width: 1.0),
                   ),
                   filled: true,
                   fillColor: Colors.grey[100],
                   contentPadding: const EdgeInsets.symmetric(vertical: 16),
                 ),
               ),
+              if (_passwordError != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0, left: 12.0),
+                  child: Text(
+                    _passwordError!,
+                    style: const TextStyle(
+                      color: Colors.red,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
 
               const SizedBox(height: 16),
 
