@@ -19,6 +19,8 @@ class DashboardPage extends StatefulWidget {
 
 class _DashboardPageState extends State<DashboardPage> {
   String _firstName = '';
+  String _lastName = '';
+  String _initials = 'U';
   bool _isBalanceVisible = false;
   double _walletBalance = 0.0;
   List<Transaction> _recentTransactions = [];
@@ -36,6 +38,16 @@ class _DashboardPageState extends State<DashboardPage> {
     if (userData != null && mounted) {
       setState(() {
         _firstName = userData['firstName'] ?? '';
+        _lastName = userData['lastName'] ?? '';
+        
+        // Create initials from first and last name
+        if (_firstName.isNotEmpty && _lastName.isNotEmpty) {
+          _initials = '${_firstName[0]}${_lastName[0]}'.toUpperCase();
+        } else if (_firstName.isNotEmpty) {
+          _initials = _firstName[0].toUpperCase();
+        } else {
+          _initials = 'U';
+        }
       });
     }
   }
@@ -112,7 +124,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   ),
                   child: Center(
                     child: Text(
-                      _firstName.isNotEmpty ? _firstName[0].toUpperCase() : 'U',
+                      _initials,
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -229,7 +241,7 @@ class _DashboardPageState extends State<DashboardPage> {
           ),
           const SizedBox(height: 12),
 
-          // Dollar equivalent amount (simple conversion for demo)
+          // Dollar equivalent amount using today's rate (May 12, 2025)
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
@@ -238,7 +250,7 @@ class _DashboardPageState extends State<DashboardPage> {
             ),
             child: Text(
               _isBalanceVisible 
-                ? '\$ ${(_walletBalance / 130).toStringAsFixed(2)}' 
+                ? '\$ ${(_walletBalance / 130.45).toStringAsFixed(2)}' 
                 : '\$ ****',
               style: const TextStyle(fontSize: 14, color: Colors.white),
             ),
