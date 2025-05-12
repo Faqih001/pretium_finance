@@ -167,130 +167,98 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     // Simulate network delay
                     await Future.delayed(const Duration(milliseconds: 1500));
 
-                      if (mounted) {
-                        // Show success dialog with the reset code
-                        showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (BuildContext context) {
-                            return Dialog(
-                              shape: RoundedRectangleBorder(
+                    // Reset loading state
+                    setState(() {
+                      _isLoading = false;
+                    });
+
+                    if (mounted) {
+                      // Show success dialog with the reset code
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (BuildContext context) {
+                          return Dialog(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: Container(
+                              padding: const EdgeInsets.all(24),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
                                 borderRadius: BorderRadius.circular(16),
                               ),
-                              child: Container(
-                                padding: const EdgeInsets.all(24),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    const Text(
-                                      'Reset Code Sent',
-                                      style: TextStyle(
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.bold,
-                                        color: Color(0xFF222222),
-                                      ),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const Text(
+                                    'Reset Code Sent',
+                                    style: TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(0xFF222222),
                                     ),
-                                    const SizedBox(height: 20),
-                                    Container(
-                                      width: 80,
-                                      height: 80,
-                                      decoration: const BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Color(0xFFE8F5E9),
-                                      ),
-                                      child: const Icon(
-                                        Icons.check_circle,
-                                        color: Color(0xFF0B6259),
-                                        size: 48,
-                                      ),
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Container(
+                                    width: 80,
+                                    height: 80,
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Color(0xFFE8F5E9),
                                     ),
-                                    const SizedBox(height: 24),
-                                    Text(
-                                      'We have sent a password reset code to',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.grey[700],
-                                      ),
-                                      textAlign: TextAlign.center,
+                                    child: const Icon(
+                                      Icons.check_circle,
+                                      color: Color(0xFF0B6259),
+                                      size: 48,
                                     ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      _emailController.text,
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                        color: Color(0xFF222222),
-                                      ),
-                                      textAlign: TextAlign.center,
+                                  ),
+                                  const SizedBox(height: 24),
+                                  Text(
+                                    'We have sent a password reset code to',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.grey[700],
                                     ),
-                                    const SizedBox(height: 24),
-                                    SizedBox(
-                                      width: double.infinity,
-                                      height: 50,
-                                      child: ElevatedButton(
-                                        onPressed: () {
-                                          Navigator.pop(
-                                            context,
-                                          ); // Close dialog
-                                          // Navigate to reset password page
-                                          _navigateToResetPasswordPage();
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: const Color(
-                                            0xFF0B6259,
-                                          ),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                              8,
-                                            ),
-                                          ),
-                                        ),
-                                        child: const Text(
-                                          'Continue',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                      ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    _emailController.text,
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(0xFF222222),
                                     ),
-                                  ],
-                                ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  const SizedBox(height: 24),
+                                  CustomButton(
+                                    text: 'Continue',
+                                    height: 50,
+                                    onPressed: () {
+                                      Navigator.pop(
+                                        context,
+                                      ); // Close dialog
+                                      // Navigate to reset password page
+                                      _navigateToResetPasswordPage();
+                                    },
+                                  ),
+                                ],
                               ),
-                            );
-                          },
-                        );
-                      }
-                    } else {
-                      // Email not found
-                      if (mounted) {
-                        setState(() {
-                          _emailError =
-                              'Email not found. Please check your email address.';
-                        });
-                      }
+                            ),
+                          );
+                        },
+                      );
                     }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF0B6259),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  child: const Text(
-                    'Send Reset Code',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
+                  } else {
+                    // Email not found
+                    setState(() {
+                      _isLoading = false;
+                      _emailError = 'Email not found. Please check your email address.';
+                    });
+                  }
+                },
               ),
             ],
           ),

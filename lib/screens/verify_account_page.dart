@@ -30,7 +30,7 @@ class _VerifyAccountPageState extends State<VerifyAccountPage> {
   bool _keyboardVisible = false;
   bool _notificationVisible = false;
   String _notificationText = '';
-  String _selectedCountry = 'Kenya';
+  String _selectedCountry = '';
   bool _isLoading = false;
   final List<String> _countries = [
     'Kenya',
