@@ -261,15 +261,41 @@ class _LoginPageState extends State<LoginPage> {
                 height: 56,
                 child: ElevatedButton(
                   onPressed: () async {
+                    // Reset all errors
+                    setState(() {
+                      _emailError = null;
+                      _passwordError = null;
+                    });
+                    
                     // Validate inputs
-                    if (_emailController.text.isEmpty ||
-                        _passwordController.text.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Please enter both email and password'),
-                          backgroundColor: Colors.red,
-                        ),
-                      );
+                    bool isValid = true;
+                    
+                    if (_emailController.text.isEmpty) {
+                      setState(() {
+                        _emailError = 'Please enter your email';
+                        isValid = false;
+                      });
+                    } else {
+                      // Check for valid email format
+                      final bool emailValid = RegExp(r'^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$')
+                          .hasMatch(_emailController.text);
+                      if (!emailValid) {
+                        setState(() {
+                          _emailError = 'Please enter a valid email';
+                          isValid = false;
+                        });
+                      }
+                    }
+                    
+                    if (_passwordController.text.isEmpty) {
+                      setState(() {
+                        _passwordError = 'Please enter your password';
+                        isValid = false;
+                      });
+                    }
+                    
+                    // If validation failed, return early
+                    if (!isValid) {
                       return;
                     }
 
@@ -304,12 +330,9 @@ class _LoginPageState extends State<LoginPage> {
                     } else {
                       // Invalid credentials
                       if (mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Invalid email or password'),
-                            backgroundColor: Colors.red,
-                          ),
-                        );
+                        setState(() {
+                          _passwordError = 'Invalid email or password';
+                        });
                       }
                     }
                   },
