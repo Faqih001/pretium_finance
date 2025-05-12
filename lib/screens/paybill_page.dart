@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/custom_button.dart';
+import '../widgets/bottom_nav_bar.dart';
 
 class PaybillPage extends StatefulWidget {
   const PaybillPage({super.key});
@@ -127,6 +128,7 @@ class _PaybillPageState extends State<PaybillPage> {
         elevation: 0,
         iconTheme: const IconThemeData(color: Colors.black),
       ),
+      bottomNavigationBar: const BottomNavBar(currentIndex: 0), // Using dashboard index since this is accessed from dashboard
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
