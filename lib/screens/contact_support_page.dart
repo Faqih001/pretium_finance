@@ -37,7 +37,9 @@ class _ContactSupportPageState extends State<ContactSupportPage> {
         // Show success message
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Your message has been sent. We\'ll get back to you soon.'),
+            content: Text(
+              'Your message has been sent. We\'ll get back to you soon.',
+            ),
             backgroundColor: Colors.green,
           ),
         );
@@ -65,18 +67,16 @@ class _ContactSupportPageState extends State<ContactSupportPage> {
             // Support channels
             const Text(
               'Support Channels',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
-            
+
             // Email support
             _buildSupportChannelCard(
               icon: Icons.email,
               title: 'Email Support',
-              description: 'Send us an email and we\'ll respond within 24 hours',
+              description:
+                  'Send us an email and we\'ll respond within 24 hours',
               actionText: 'support@pretium.com',
               onTap: () {
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -86,7 +86,7 @@ class _ContactSupportPageState extends State<ContactSupportPage> {
                 );
               },
             ),
-            
+
             // Live chat
             _buildSupportChannelCard(
               icon: Icons.chat_bubble_outline,
@@ -96,12 +96,14 @@ class _ContactSupportPageState extends State<ContactSupportPage> {
               onTap: () {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
-                    content: Text('Live chat functionality not implemented yet'),
+                    content: Text(
+                      'Live chat functionality not implemented yet',
+                    ),
                   ),
                 );
               },
             ),
-            
+
             // Phone support
             _buildSupportChannelCard(
               icon: Icons.phone,
@@ -111,24 +113,23 @@ class _ContactSupportPageState extends State<ContactSupportPage> {
               onTap: () {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
-                    content: Text('Phone call functionality not implemented yet'),
+                    content: Text(
+                      'Phone call functionality not implemented yet',
+                    ),
                   ),
                 );
               },
             ),
-            
+
             const SizedBox(height: 32),
-            
+
             // Contact form
             const Text(
               'Send us a message',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
-            
+
             Form(
               key: _formKey,
               child: Column(
@@ -151,7 +152,7 @@ class _ContactSupportPageState extends State<ContactSupportPage> {
                     },
                   ),
                   const SizedBox(height: 16),
-                  
+
                   // Message field
                   TextFormField(
                     controller: _messageController,
@@ -170,7 +171,7 @@ class _ContactSupportPageState extends State<ContactSupportPage> {
                     },
                   ),
                   const SizedBox(height: 24),
-                  
+
                   // Submit button
                   ElevatedButton(
                     onPressed: _isLoading ? null : _submitForm,
@@ -186,53 +187,54 @@ class _ContactSupportPageState extends State<ContactSupportPage> {
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    child: _isLoading
-                        ? const SizedBox(
-                            width: 24,
-                            height: 24,
-                            child: CircularProgressIndicator(
-                              color: Colors.white,
-                              strokeWidth: 2,
-                            ),
-                          )
-                        : const Text('SEND MESSAGE'),
+                    child:
+                        _isLoading
+                            ? const SizedBox(
+                              width: 24,
+                              height: 24,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 2,
+                              ),
+                            )
+                            : const Text('SEND MESSAGE'),
                   ),
                 ],
               ),
             ),
-            
+
             const SizedBox(height: 32),
-            
+
             // FAQ section
             const Text(
               'Frequently Asked Questions',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
-            
+
             _buildFaqItem(
               question: 'How do I reset my password?',
-              answer: 'You can reset your password by clicking on "Forgot Password" on the login screen and following the instructions sent to your email.',
+              answer:
+                  'You can reset your password by clicking on "Forgot Password" on the login screen and following the instructions sent to your email.',
             ),
-            
+
             _buildFaqItem(
               question: 'How long do transfers take?',
-              answer: 'Most transfers are processed instantly, but in some cases, it might take up to 24 hours depending on the destination bank.',
+              answer:
+                  'Most transfers are processed instantly, but in some cases, it might take up to 24 hours depending on the destination bank.',
             ),
-            
+
             _buildFaqItem(
               question: 'How do I change my phone number?',
-              answer: 'To change your phone number, go to your profile settings and update your contact information.',
+              answer:
+                  'To change your phone number, go to your profile settings and update your contact information.',
             ),
           ],
         ),
       ),
     );
   }
-  
+
   Widget _buildSupportChannelCard({
     required IconData icon,
     required String title,
@@ -243,9 +245,7 @@ class _ContactSupportPageState extends State<ContactSupportPage> {
     return Card(
       margin: const EdgeInsets.only(bottom: 16),
       elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: InkWell(
         onTap: onTap,
         child: Padding(
@@ -258,11 +258,7 @@ class _ContactSupportPageState extends State<ContactSupportPage> {
                   color: const Color(0xFF0B6259).withOpacity(0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Icon(
-                  icon,
-                  color: const Color(0xFF0B6259),
-                  size: 24,
-                ),
+                child: Icon(icon, color: const Color(0xFF0B6259), size: 24),
               ),
               const SizedBox(width: 16),
               Expanded(
@@ -279,10 +275,7 @@ class _ContactSupportPageState extends State<ContactSupportPage> {
                     const SizedBox(height: 4),
                     Text(
                       description,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey[600],
-                      ),
+                      style: TextStyle(fontSize: 14, color: Colors.grey[600]),
                     ),
                     const SizedBox(height: 4),
                     Text(
@@ -303,28 +296,19 @@ class _ContactSupportPageState extends State<ContactSupportPage> {
       ),
     );
   }
-  
-  Widget _buildFaqItem({
-    required String question,
-    required String answer,
-  }) {
+
+  Widget _buildFaqItem({required String question, required String answer}) {
     return ExpansionTile(
       title: Text(
         question,
-        style: const TextStyle(
-          fontWeight: FontWeight.w500,
-          fontSize: 16,
-        ),
+        style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
       ),
       children: [
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
           child: Text(
             answer,
-            style: TextStyle(
-              color: Colors.grey[700],
-              fontSize: 14,
-            ),
+            style: TextStyle(color: Colors.grey[700], fontSize: 14),
           ),
         ),
       ],

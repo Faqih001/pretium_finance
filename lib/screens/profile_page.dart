@@ -37,7 +37,7 @@ class _ProfilePageState extends State<ProfilePage> {
         _firstName = userData['firstName'] ?? '';
         _lastName = userData['lastName'] ?? '';
         _email = userData['email'] ?? '';
-        
+
         // Generate initials from first and last name
         if (_firstName.isNotEmpty && _lastName.isNotEmpty) {
           _initials = '${_firstName[0]}${_lastName[0]}';
@@ -64,10 +64,7 @@ class _ProfilePageState extends State<ProfilePage> {
               children: [
                 const Text(
                   'Sign out',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 16),
@@ -119,11 +116,11 @@ class _ProfilePageState extends State<ProfilePage> {
       barrierDismissible: false,
       builder: (context) => const Center(child: CircularProgressIndicator()),
     );
-    
+
     try {
       // Clear all stored data
       await StorageService.clearAll();
-      
+
       // Navigate to login page and remove all previous routes
       if (mounted) {
         Navigator.of(context).pop(); // Close loading dialog
@@ -137,9 +134,9 @@ class _ProfilePageState extends State<ProfilePage> {
       if (mounted) {
         Navigator.of(context).pop(); // Close loading dialog
         // Show error message
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error signing out: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error signing out: $e')));
       }
     }
   }
@@ -178,12 +175,13 @@ class _ProfilePageState extends State<ProfilePage> {
                       children: List.generate(5, (index) {
                         return IconButton(
                           icon: Icon(
-                            index < _userRating 
-                                ? Icons.star 
+                            index < _userRating
+                                ? Icons.star
                                 : Icons.star_border,
-                            color: index < _userRating
-                                ? Colors.amber
-                                : Colors.grey,
+                            color:
+                                index < _userRating
+                                    ? Colors.amber
+                                    : Colors.grey,
                             size: 36,
                           ),
                           onPressed: () {
@@ -205,18 +203,20 @@ class _ProfilePageState extends State<ProfilePage> {
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      onPressed: _userRating > 0
-                          ? () {
-                              // Submit rating
-                              Navigator.of(context).pop();
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                      'Thank you for rating us $_userRating ${_userRating == 1 ? "star" : "stars"}!'),
-                                ),
-                              );
-                            }
-                          : null,
+                      onPressed:
+                          _userRating > 0
+                              ? () {
+                                // Submit rating
+                                Navigator.of(context).pop();
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'Thank you for rating us $_userRating ${_userRating == 1 ? "star" : "stars"}!',
+                                    ),
+                                  ),
+                                );
+                              }
+                              : null,
                       child: const Text('SUBMIT'),
                     ),
                     TextButton(
@@ -251,12 +251,15 @@ class _ProfilePageState extends State<ProfilePage> {
           children: [
             // Profile header
             _buildProfileHeader(),
-            
+
             // Profile options
             _buildProfileOption(
               icon: Icons.currency_exchange,
               title: 'Currency',
-              trailing: Text(_currency, style: const TextStyle(color: Color(0xFF0B6259))),
+              trailing: Text(
+                _currency,
+                style: const TextStyle(color: Color(0xFF0B6259)),
+              ),
               onTap: () {
                 // Navigate to currency settings page
                 Navigator.push(
@@ -265,7 +268,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 );
               },
             ),
-            
+
             _buildProfileOption(
               icon: Icons.account_balance_wallet_outlined,
               title: 'Assets',
@@ -278,7 +281,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 );
               },
             ),
-            
+
             _buildProfileOption(
               icon: Icons.swap_horiz,
               title: 'Wallet Address',
@@ -287,11 +290,13 @@ class _ProfilePageState extends State<ProfilePage> {
                 // Navigate to wallet address page
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const WalletAddressPage()),
+                  MaterialPageRoute(
+                    builder: (context) => const WalletAddressPage(),
+                  ),
                 );
               },
             ),
-            
+
             _buildProfileOption(
               icon: Icons.telegram,
               title: 'Contact Support',
@@ -300,11 +305,13 @@ class _ProfilePageState extends State<ProfilePage> {
                 // Open contact support
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const ContactSupportPage()),
+                  MaterialPageRoute(
+                    builder: (context) => const ContactSupportPage(),
+                  ),
                 );
               },
             ),
-            
+
             _buildProfileOption(
               icon: Icons.description_outlined,
               title: 'Terms and Conditions',
@@ -313,11 +320,13 @@ class _ProfilePageState extends State<ProfilePage> {
                 // Open terms and conditions
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const TermsConditionsPage()),
+                  MaterialPageRoute(
+                    builder: (context) => const TermsConditionsPage(),
+                  ),
                 );
               },
             ),
-            
+
             _buildProfileOption(
               icon: Icons.privacy_tip_outlined,
               title: 'Privacy Policy',
@@ -326,18 +335,20 @@ class _ProfilePageState extends State<ProfilePage> {
                 // Open privacy policy
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const PrivacyPolicyPage()),
+                  MaterialPageRoute(
+                    builder: (context) => const PrivacyPolicyPage(),
+                  ),
                 );
               },
             ),
-            
+
             _buildProfileOption(
               icon: Icons.phone_android_outlined,
               title: 'App Version',
               trailing: const Text('1.0.0+16'),
               onTap: null, // Disabled option
             ),
-            
+
             _buildProfileOption(
               icon: Icons.logout,
               title: 'Sign out',
@@ -345,7 +356,7 @@ class _ProfilePageState extends State<ProfilePage> {
               onTap: _showSignOutDialog,
               textColor: Colors.black87,
             ),
-            
+
             _buildProfileOption(
               icon: Icons.delete_outline,
               title: 'Delete Account',
@@ -354,14 +365,16 @@ class _ProfilePageState extends State<ProfilePage> {
                 // Navigate to delete account page
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const DeleteAccountPage()),
+                  MaterialPageRoute(
+                    builder: (context) => const DeleteAccountPage(),
+                  ),
                 );
               },
               textColor: Colors.black87,
             ),
-            
+
             const SizedBox(height: 20),
-            
+
             // Rate app button
             GestureDetector(
               onTap: () {
@@ -369,7 +382,10 @@ class _ProfilePageState extends State<ProfilePage> {
               },
               child: Container(
                 margin: const EdgeInsets.symmetric(vertical: 20),
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 10,
+                ),
                 decoration: BoxDecoration(
                   color: Colors.grey.shade200,
                   borderRadius: BorderRadius.circular(30),
@@ -379,12 +395,16 @@ class _ProfilePageState extends State<ProfilePage> {
                   children: [
                     const Text('Rate App'),
                     const SizedBox(width: 5),
-                    Icon(Icons.thumb_up, color: Colors.amber.shade700, size: 18),
+                    Icon(
+                      Icons.thumb_up,
+                      color: Colors.amber.shade700,
+                      size: 18,
+                    ),
                   ],
                 ),
               ),
             ),
-            
+
             const SizedBox(height: 40),
           ],
         ),
@@ -417,30 +437,24 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
           const SizedBox(height: 8),
-          
+
           // Coming soon text and edit button
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text(
                 'Coming Soon',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                ),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
               ),
               const SizedBox(width: 8),
               Icon(Icons.edit, color: Colors.grey.shade700, size: 18),
             ],
           ),
-          
+
           // Email
           Text(
             _email,
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.grey.shade600,
-            ),
+            style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
           ),
         ],
       ),

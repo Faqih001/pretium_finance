@@ -26,111 +26,107 @@ class WalletAddressPage extends StatelessWidget {
         backgroundColor: const Color(0xFF0B6259),
         foregroundColor: Colors.white,
       ),
-      body: walletAddresses.isEmpty
-          ? const Center(
-              child: Text(
-                'No wallet addresses available yet',
-                style: TextStyle(fontSize: 16, color: Colors.grey),
-              ),
-            )
-          : ListView.builder(
-              padding: const EdgeInsets.all(16),
-              itemCount: walletAddresses.length,
-              itemBuilder: (context, index) {
-                final wallet = walletAddresses[index];
-                return Card(
-                  margin: const EdgeInsets.only(bottom: 16),
-                  elevation: 2,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Icon(
-                              wallet['icon'] as IconData,
-                              color: const Color(0xFF0B6259),
-                            ),
-                            const SizedBox(width: 8),
-                            Text(
-                              wallet['name'] as String,
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 16),
-                        const Text(
-                          'Address:',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          wallet['address'] as String,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontFamily: 'monospace',
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            // Copy button
-                            TextButton.icon(
-                              icon: const Icon(
-                                Icons.copy,
-                                size: 16,
-                              ),
-                              label: const Text('Copy'),
-                              onPressed: () {
-                                Clipboard.setData(
-                                  ClipboardData(
-                                    text: wallet['address'] as String,
-                                  ),
-                                );
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Address copied to clipboard'),
-                                    duration: Duration(seconds: 2),
-                                  ),
-                                );
-                              },
-                            ),
-                            const SizedBox(width: 8),
-                            // Share button
-                            TextButton.icon(
-                              icon: const Icon(
-                                Icons.share,
-                                size: 16,
-                              ),
-                              label: const Text('Share'),
-                              onPressed: () {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Share functionality not implemented yet'),
-                                    duration: Duration(seconds: 2),
-                                  ),
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                      ],
+      body:
+          walletAddresses.isEmpty
+              ? const Center(
+                child: Text(
+                  'No wallet addresses available yet',
+                  style: TextStyle(fontSize: 16, color: Colors.grey),
+                ),
+              )
+              : ListView.builder(
+                padding: const EdgeInsets.all(16),
+                itemCount: walletAddresses.length,
+                itemBuilder: (context, index) {
+                  final wallet = walletAddresses[index];
+                  return Card(
+                    margin: const EdgeInsets.only(bottom: 16),
+                    elevation: 2,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                  ),
-                );
-              },
-            ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                wallet['icon'] as IconData,
+                                color: const Color(0xFF0B6259),
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                wallet['name'] as String,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+                          const Text(
+                            'Address:',
+                            style: TextStyle(fontSize: 14, color: Colors.grey),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            wallet['address'] as String,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontFamily: 'monospace',
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              // Copy button
+                              TextButton.icon(
+                                icon: const Icon(Icons.copy, size: 16),
+                                label: const Text('Copy'),
+                                onPressed: () {
+                                  Clipboard.setData(
+                                    ClipboardData(
+                                      text: wallet['address'] as String,
+                                    ),
+                                  );
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                        'Address copied to clipboard',
+                                      ),
+                                      duration: Duration(seconds: 2),
+                                    ),
+                                  );
+                                },
+                              ),
+                              const SizedBox(width: 8),
+                              // Share button
+                              TextButton.icon(
+                                icon: const Icon(Icons.share, size: 16),
+                                label: const Text('Share'),
+                                onPressed: () {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                        'Share functionality not implemented yet',
+                                      ),
+                                      duration: Duration(seconds: 2),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color(0xFF0B6259),
         child: const Icon(Icons.add, color: Colors.white),
@@ -138,7 +134,9 @@ class WalletAddressPage extends StatelessWidget {
           // Add new wallet address
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: Text('Add wallet address functionality not implemented yet'),
+              content: Text(
+                'Add wallet address functionality not implemented yet',
+              ),
               duration: Duration(seconds: 2),
             ),
           );

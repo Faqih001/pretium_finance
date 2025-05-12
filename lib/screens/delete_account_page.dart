@@ -43,9 +43,7 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
         return const Dialog(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          child: Center(
-            child: CircularProgressIndicator(),
-          ),
+          child: Center(child: CircularProgressIndicator()),
         );
       },
     );
@@ -121,7 +119,7 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
               ),
             ),
             const SizedBox(height: 24),
-            
+
             // Warning title
             const Center(
               child: Text(
@@ -134,7 +132,7 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
               ),
             ),
             const SizedBox(height: 24),
-            
+
             // Warning message
             Container(
               padding: const EdgeInsets.all(16),
@@ -157,10 +155,7 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
                   SizedBox(height: 8),
                   Text(
                     'Deleting your account is permanent. Once you delete your account:',
-                    style: TextStyle(
-                      fontSize: 16,
-                      height: 1.5,
-                    ),
+                    style: TextStyle(fontSize: 16, height: 1.5),
                   ),
                   SizedBox(height: 8),
                   Text(
@@ -168,23 +163,17 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
                     '• You will lose access to your transaction history\n'
                     '• Any funds in your wallet must be withdrawn first\n'
                     '• This action cannot be undone',
-                    style: TextStyle(
-                      fontSize: 16,
-                      height: 1.5,
-                    ),
+                    style: TextStyle(fontSize: 16, height: 1.5),
                   ),
                 ],
               ),
             ),
             const SizedBox(height: 32),
-            
+
             // Reason field
             const Text(
               'Please tell us why you\'re leaving:',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-              ),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: 12),
             TextFormField(
@@ -202,7 +191,7 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
               maxLines: 3,
             ),
             const SizedBox(height: 24),
-            
+
             // Confirmation checkbox
             Row(
               children: [
@@ -218,16 +207,13 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
                 const Expanded(
                   child: Text(
                     'I understand that this action is permanent and cannot be undone',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                   ),
                 ),
               ],
             ),
             const SizedBox(height: 32),
-            
+
             // Delete button
             SizedBox(
               width: double.infinity,
@@ -245,20 +231,21 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                child: _isLoading
-                    ? const SizedBox(
-                        width: 24,
-                        height: 24,
-                        child: CircularProgressIndicator(
-                          color: Colors.white,
-                          strokeWidth: 2,
-                        ),
-                      )
-                    : const Text('DELETE MY ACCOUNT'),
+                child:
+                    _isLoading
+                        ? const SizedBox(
+                          width: 24,
+                          height: 24,
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 2,
+                          ),
+                        )
+                        : const Text('DELETE MY ACCOUNT'),
               ),
             ),
             const SizedBox(height: 16),
-            
+
             // Cancel button
             SizedBox(
               width: double.infinity,

@@ -9,10 +9,10 @@ class CurrencyPage extends StatefulWidget {
 
 class _CurrencyPageState extends State<CurrencyPage> {
   String _selectedCurrency = 'KES'; // Default currency
-  
+
   final List<Map<String, dynamic>> _currencies = [
     {'code': 'KES', 'name': 'Kenyan Shilling', 'symbol': 'KSh'},
-    {'code': 'USD', 'name': 'US Dollar', 'symbol': '$'},
+    {'code': 'USD', 'name': 'US Dollar', 'symbol': '\$'},
     {'code': 'EUR', 'name': 'Euro', 'symbol': '€'},
     {'code': 'GBP', 'name': 'British Pound', 'symbol': '£'},
     {'code': 'NGN', 'name': 'Nigerian Naira', 'symbol': '₦'},
@@ -34,18 +34,19 @@ class _CurrencyPageState extends State<CurrencyPage> {
         itemBuilder: (context, index) {
           final currency = _currencies[index];
           final bool isSelected = currency['code'] == _selectedCurrency;
-          
+
           return ListTile(
             title: Text(currency['code']),
             subtitle: Text(currency['name']),
-            trailing: isSelected 
-              ? const Icon(Icons.check_circle, color: Color(0xFF0B6259)) 
-              : null,
+            trailing:
+                isSelected
+                    ? const Icon(Icons.check_circle, color: Color(0xFF0B6259))
+                    : null,
             onTap: () {
               setState(() {
                 _selectedCurrency = currency['code'];
               });
-              
+
               // In a real app, you would save this preference
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
