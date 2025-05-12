@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../services/storage_service.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});
@@ -84,14 +85,49 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 width: double.infinity,
                 height: 56,
                 child: ElevatedButton(
-                  onPressed: () {
-                    // Handle send reset code
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Reset code sent to your email'),
-                        backgroundColor: Color(0xFF0B6259),
-                      ),
-                    );
+                  onPressed: () async {
+                    // Validate email
+                    if (_emailController.text.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Please enter your email address'),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                      return;
+                    }
+
+                    // Check if email exists in our stored users
+                    final userData = await StorageService.getUserData();
+                    if (userData != null && userData['email'] == _emailController.text) {
+                      // Save password reset request
+                      await StorageService.savePasswordResetRequest(_emailController.text);
+                      
+                      // Get reset code to display in snackbar (in real app, this would be sent via email)
+                      final resetData = await StorageService.getPasswordResetRequest();
+                      final resetCode = resetData?['code'] ?? '000000';
+
+                      if (mounted) {
+                        // Show success message with the reset code
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Reset code sent: $resetCode (for demo only)'),
+                            backgroundColor: const Color(0xFF0B6259),
+                            duration: const Duration(seconds: 5),
+                          ),
+                        );
+                      }
+                    } else {
+                      // Email not found
+                      if (mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Email not found. Please check your email address.'),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                      }
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF0B6259),

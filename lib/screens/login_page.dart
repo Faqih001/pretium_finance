@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'forgot_password_page.dart';
 import 'signup_page.dart';
+import '../services/storage_service.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -14,6 +15,22 @@ class _LoginPageState extends State<LoginPage> {
   final _passwordController = TextEditingController();
   bool _rememberMe = false;
   bool _obscurePassword = true;
+  
+  @override
+  void initState() {
+    super.initState();
+    _loadSavedEmail();
+  }
+  
+  Future<void> _loadSavedEmail() async {
+    final email = await StorageService.getEmail();
+    if (email != null) {
+      setState(() {
+        _emailController.text = email;
+        _rememberMe = true;
+      });
+    }
+  }
 
   @override
   void dispose() {
@@ -180,8 +197,53 @@ class _LoginPageState extends State<LoginPage> {
                 width: double.infinity,
                 height: 56,
                 child: ElevatedButton(
-                  onPressed: () {
-                    // Handle login
+                  onPressed: () async {
+                    // Validate inputs
+                    if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Please enter both email and password'),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                      return;
+                    }
+
+                    // Get user data from storage
+                    final userData = await StorageService.getUserData();
+                    
+                    // Check if credentials match
+                    if (userData != null && 
+                        userData['email'] == _emailController.text &&
+                        userData['password'] == _passwordController.text) {
+                      
+                      // Save login status and current email
+                      await StorageService.saveLoginStatus(true);
+                      await StorageService.saveEmail(_emailController.text);
+                      
+                      // In a real app, navigate to the home/dashboard screen
+                      if (mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Login successful!'),
+                            backgroundColor: Color(0xFF0B6259),
+                          ),
+                        );
+                        
+                        // TODO: Navigate to dashboard/home screen
+                        // For now, we'll just show a success message
+                      }
+                    } else {
+                      // Invalid credentials
+                      if (mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Invalid email or password'),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                      }
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF0B6259),

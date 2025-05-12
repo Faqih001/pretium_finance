@@ -202,8 +202,55 @@ class _SignupPageState extends State<SignupPage> {
                 width: double.infinity,
                 height: 56,
                 child: ElevatedButton(
-                  onPressed: () {
-                    // Handle account creation
+                  onPressed: () async {
+                    // Validate inputs
+                    if (_firstNameController.text.isEmpty ||
+                        _lastNameController.text.isEmpty ||
+                        _emailController.text.isEmpty ||
+                        _passwordController.text.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Please fill in all fields'),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                      return;
+                    }
+
+                    if (!_acceptTerms) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Please accept the terms and conditions'),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                      return;
+                    }
+
+                    // Save user data to local storage
+                    await StorageService.saveUserData(
+                      firstName: _firstNameController.text,
+                      lastName: _lastNameController.text,
+                      email: _emailController.text,
+                      password: _passwordController.text,
+                    );
+                    
+                    // Show success message
+                    if (mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Account created successfully! Please login.'),
+                          backgroundColor: Color(0xFF0B6259),
+                        ),
+                      );
+                      
+                      // Navigate back to login page after short delay
+                      Future.delayed(const Duration(seconds: 2), () {
+                        if (mounted) {
+                          Navigator.pop(context);
+                        }
+                      });
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF0B6259),
