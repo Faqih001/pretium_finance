@@ -151,20 +151,8 @@ class _VerifyAccountPageState extends State<VerifyAccountPage> {
       password: widget.password,
     );
     
-    // Show success snackbar
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: const Text(
-          'Email verified successfully! Please login to continue',
-          style: TextStyle(color: Colors.white),
-        ),
-        backgroundColor: const Color(0xFF0B6259),
-        duration: const Duration(seconds: 3),
-        behavior: SnackBarBehavior.floating,
-        margin: EdgeInsets.only(bottom: 70.0, left: 16.0, right: 16.0),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      ),
-    );
+    // Show success notification
+    _showNotification('Email verified successfully! Please login to continue');
     
     // Navigate to login page after short delay
     Future.delayed(const Duration(seconds: 2), () {
