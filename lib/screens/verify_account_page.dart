@@ -95,7 +95,7 @@ class _VerifyAccountPageState extends State<VerifyAccountPage> {
                 padding: EdgeInsets.all(16.0),
                 child: Text(
                   'Select Country',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
                 ),
               ),
               Expanded(
