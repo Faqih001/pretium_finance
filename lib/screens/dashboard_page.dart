@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../services/storage_service.dart';
+import '../services/notification_service.dart';
 import '../widgets/bottom_nav_bar.dart';
 import '../models/transaction.dart';
 import 'transactions_page.dart';
@@ -157,7 +158,12 @@ class _DashboardPageState extends State<DashboardPage> {
           IconButton(
             icon: const Icon(Icons.notifications_none, size: 28),
             onPressed: () {
-              // TODO: Implement notification view
+              // Show a sample notification
+              NotificationService.showNotification(
+                context,
+                message: 'Welcome to Pretium Finance! Your financial partner.',
+                icon: Icons.info_outline,
+              );
             },
           ),
         ],

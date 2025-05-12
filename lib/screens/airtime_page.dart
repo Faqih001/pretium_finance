@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/bottom_nav_bar.dart';
 import '../services/storage_service.dart';
+import '../services/notification_service.dart';
 import '../models/transaction.dart';
 import 'dart:math';
 
@@ -115,12 +116,11 @@ class _AirtimePageState extends State<AirtimePage> {
           _isLoading = false;
         });
 
-        // Show success message and go back
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Airtime purchase successful!'),
-            backgroundColor: Color(0xFF0B6259),
-          ),
+        // Show success message using notification service
+        NotificationService.showNotification(
+          context,
+          message: 'Airtime purchase successful!',
+          icon: Icons.check_circle_outline,
         );
 
         Navigator.pop(context);
@@ -131,12 +131,12 @@ class _AirtimePageState extends State<AirtimePage> {
           _isLoading = false;
         });
         
-        // Show error message
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error purchasing airtime: $e'),
-            backgroundColor: Colors.red,
-          ),
+        // Show error message using notification service
+        NotificationService.showNotification(
+          context,
+          message: 'Error purchasing airtime: $e',
+          backgroundColor: Colors.red.shade700,
+          icon: Icons.error_outline,
         );
       }
     }
