@@ -22,6 +22,7 @@ class _ProfilePageState extends State<ProfilePage> {
   String _lastName = '';
   String _initials = 'FM'; // Default initials
   String _currency = 'KES'; // Default currency
+  int _userRating = 0; // For app rating
 
   @override
   void initState() {
@@ -51,29 +52,61 @@ class _ProfilePageState extends State<ProfilePage> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Sign out'),
-          content: const Text('Are you sure you want to sign out?'),
-          actions: [
-            TextButton(
-              child: const Text(
-                'Cancel',
-                style: TextStyle(color: Colors.redAccent),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const Text(
+                  'Sign out',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  'Are you sure you want to sign out?',
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 24),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Expanded(
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        style: TextButton.styleFrom(
+                          foregroundColor: Colors.redAccent,
+                        ),
+                        child: const Text('Cancel'),
+                      ),
+                    ),
+                    Expanded(
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          _signOut();
+                        },
+                        style: TextButton.styleFrom(
+                          foregroundColor: const Color(0xFF0B6259),
+                        ),
+                        child: const Text('Sign out'),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
-            TextButton(
-              child: const Text(
-                'Sign out',
-                style: TextStyle(color: Colors.teal),
-              ),
-              onPressed: () {
-                _signOut();
-              },
-            ),
-          ],
+          ),
         );
       },
     );
@@ -111,6 +144,97 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
+  void _showRatingDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return Dialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text(
+                      'Rate Pretium Finance',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    const Text(
+                      'How would you rate your experience with our app?',
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 20),
+                    // Star rating
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(5, (index) {
+                        return IconButton(
+                          icon: Icon(
+                            index < _userRating 
+                                ? Icons.star 
+                                : Icons.star_border,
+                            color: index < _userRating
+                                ? Colors.amber
+                                : Colors.grey,
+                            size: 36,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _userRating = index + 1;
+                            });
+                          },
+                        );
+                      }),
+                    ),
+                    const SizedBox(height: 24),
+                    // Submit button
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF0B6259),
+                        foregroundColor: Colors.white,
+                        minimumSize: const Size(double.infinity, 50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      onPressed: _userRating > 0
+                          ? () {
+                              // Submit rating
+                              Navigator.of(context).pop();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                      'Thank you for rating us $_userRating ${_userRating == 1 ? "star" : "stars"}!'),
+                                ),
+                              );
+                            }
+                          : null,
+                      child: const Text('SUBMIT'),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('Not now'),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -135,8 +259,9 @@ class _ProfilePageState extends State<ProfilePage> {
               trailing: Text(_currency, style: const TextStyle(color: Color(0xFF0B6259))),
               onTap: () {
                 // Navigate to currency settings page
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Currency settings not implemented yet')),
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const CurrencyPage()),
                 );
               },
             ),
@@ -147,8 +272,9 @@ class _ProfilePageState extends State<ProfilePage> {
               trailing: const Icon(Icons.chevron_right),
               onTap: () {
                 // Navigate to assets page
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Assets page not implemented yet')),
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AssetsPage()),
                 );
               },
             ),
@@ -159,8 +285,9 @@ class _ProfilePageState extends State<ProfilePage> {
               trailing: const Icon(Icons.chevron_right),
               onTap: () {
                 // Navigate to wallet address page
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Wallet address page not implemented yet')),
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const WalletAddressPage()),
                 );
               },
             ),
@@ -171,8 +298,9 @@ class _ProfilePageState extends State<ProfilePage> {
               trailing: const Icon(Icons.open_in_new),
               onTap: () {
                 // Open contact support
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Contact support not implemented yet')),
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ContactSupportPage()),
                 );
               },
             ),
@@ -183,8 +311,9 @@ class _ProfilePageState extends State<ProfilePage> {
               trailing: const Icon(Icons.open_in_new),
               onTap: () {
                 // Open terms and conditions
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Terms and conditions not implemented yet')),
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const TermsConditionsPage()),
                 );
               },
             ),
@@ -195,8 +324,9 @@ class _ProfilePageState extends State<ProfilePage> {
               trailing: const Icon(Icons.open_in_new),
               onTap: () {
                 // Open privacy policy
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Privacy policy not implemented yet')),
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const PrivacyPolicyPage()),
                 );
               },
             ),
@@ -222,8 +352,9 @@ class _ProfilePageState extends State<ProfilePage> {
               trailing: const Icon(Icons.chevron_right),
               onTap: () {
                 // Navigate to delete account page
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Delete account not implemented yet')),
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const DeleteAccountPage()),
                 );
               },
               textColor: Colors.black87,
@@ -232,20 +363,25 @@ class _ProfilePageState extends State<ProfilePage> {
             const SizedBox(height: 20),
             
             // Rate app button
-            Container(
-              margin: const EdgeInsets.symmetric(vertical: 20),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-              decoration: BoxDecoration(
-                color: Colors.grey.shade200,
-                borderRadius: BorderRadius.circular(30),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Text('Rate App'),
-                  const SizedBox(width: 5),
-                  Icon(Icons.thumb_up, color: Colors.amber.shade700, size: 18),
-                ],
+            GestureDetector(
+              onTap: () {
+                _showRatingDialog();
+              },
+              child: Container(
+                margin: const EdgeInsets.symmetric(vertical: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade200,
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text('Rate App'),
+                    const SizedBox(width: 5),
+                    Icon(Icons.thumb_up, color: Colors.amber.shade700, size: 18),
+                  ],
+                ),
               ),
             ),
             
