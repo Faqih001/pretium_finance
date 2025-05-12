@@ -11,7 +11,6 @@ class LandingPage extends StatefulWidget {
 
 class _LandingPageState extends State<LandingPage> {
   final PageController _pageController = PageController();
-  int _currentPage = 0;
 
   List<OnboardingData> onboardingData = [
     OnboardingData(
@@ -39,7 +38,6 @@ class _LandingPageState extends State<LandingPage> {
 
   void _onPageChanged(int index) {
     setState(() {
-      _currentPage = index;
     });
   }
 
