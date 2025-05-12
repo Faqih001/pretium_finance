@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import '../widgets/custom_button.dart';
 import 'login_page.dart';
 
 class LandingPage extends StatefulWidget {
@@ -12,6 +13,7 @@ class LandingPage extends StatefulWidget {
 class _LandingPageState extends State<LandingPage> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
+  bool _isLoading = false;
 
   List<OnboardingData> onboardingData = [
     OnboardingData(

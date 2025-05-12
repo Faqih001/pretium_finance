@@ -358,100 +358,97 @@ class _SignupPageState extends State<SignupPage> {
                     _emailError = null;
                     _passwordError = null;
                     _termsError = null;
+                  });
+
+                  // Validate each field
+                  bool isValid = true;
+
+                  if (_firstNameController.text.isEmpty) {
+                    setState(() {
+                      _firstNameError = 'Please enter your first name';
+                      isValid = false;
                     });
+                  }
 
-                    // Validate each field
-                    bool isValid = true;
+                  if (_lastNameController.text.isEmpty) {
+                    setState(() {
+                      _lastNameError = 'Please enter your last name';
+                      isValid = false;
+                    });
+                  }
 
-                    if (_firstNameController.text.isEmpty) {
+                  if (_emailController.text.isEmpty) {
+                    setState(() {
+                      _emailError = 'Please enter your email';
+                      isValid = false;
+                    });
+                  } else {
+                    // Check email format
+                    final bool emailValid = RegExp(
+                      r'^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$',
+                    ).hasMatch(_emailController.text);
+                    if (!emailValid) {
                       setState(() {
-                        _firstNameError = 'Please enter your first name';
+                        _emailError = 'Please enter a valid email';
                         isValid = false;
                       });
                     }
+                  }
 
-                    if (_lastNameController.text.isEmpty) {
-                      setState(() {
-                        _lastNameError = 'Please enter your last name';
-                        isValid = false;
-                      });
-                    }
+                  if (_passwordController.text.isEmpty) {
+                    setState(() {
+                      _passwordError = 'Please enter a password';
+                      isValid = false;
+                    });
+                  } else if (_passwordController.text.length < 6) {
+                    setState(() {
+                      _passwordError =
+                          'Password must be at least 6 characters';
+                      isValid = false;
+                    });
+                  }
 
-                    if (_emailController.text.isEmpty) {
-                      setState(() {
-                        _emailError = 'Please enter your email';
-                        isValid = false;
-                      });
-                    } else {
-                      // Check email format
-                      final bool emailValid = RegExp(
-                        r'^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$',
-                      ).hasMatch(_emailController.text);
-                      if (!emailValid) {
-                        setState(() {
-                          _emailError = 'Please enter a valid email';
-                          isValid = false;
-                        });
-                      }
-                    }
+                  if (!_acceptTerms) {
+                    setState(() {
+                      _termsError =
+                          'You must accept the terms and conditions';
+                      isValid = false;
+                    });
+                  }
 
-                    if (_passwordController.text.isEmpty) {
-                      setState(() {
-                        _passwordError = 'Please enter a password';
-                        isValid = false;
-                      });
-                    } else if (_passwordController.text.length < 6) {
-                      setState(() {
-                        _passwordError =
-                            'Password must be at least 6 characters';
-                        isValid = false;
-                      });
-                    }
+                  // If any validation failed, return early
+                  if (!isValid) {
+                    return;
+                  }
 
-                    if (!_acceptTerms) {
-                      setState(() {
-                        _termsError =
-                            'You must accept the terms and conditions';
-                        isValid = false;
-                      });
-                    }
+                  // Set loading state
+                  setState(() {
+                    _isLoading = true;
+                  });
 
-                    // If any validation failed, return early
-                    if (!isValid) {
-                      return;
-                    }
+                  // Simulate network delay
+                  await Future.delayed(const Duration(milliseconds: 1500));
 
-                    // Navigate to verify account page
-                    if (mounted) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder:
-                              (context) => VerifyAccountPage(
-                                firstName: _firstNameController.text,
-                                lastName: _lastNameController.text,
-                                email: _emailController.text,
-                                password: _passwordController.text,
-                              ),
-                        ),
-                      );
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF0B6259),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  child: const Text(
-                    'Create Account',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
+                  // Navigate to verify account page
+                  if (mounted) {
+                    setState(() {
+                      _isLoading = false;
+                    });
+                    
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder:
+                            (context) => VerifyAccountPage(
+                              firstName: _firstNameController.text,
+                              lastName: _lastNameController.text,
+                              email: _emailController.text,
+                              password: _passwordController.text,
+                            ),
+                      ),
+                    );
+                  }
+                },
               ),
 
               const SizedBox(height: 20),
