@@ -79,21 +79,27 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: _emailError != null 
-                        ? const BorderSide(color: Colors.red, width: 1.0) 
-                        : BorderSide.none,
+                    borderSide:
+                        _emailError != null
+                            ? const BorderSide(color: Colors.red, width: 1.0)
+                            : BorderSide.none,
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: _emailError != null 
-                        ? const BorderSide(color: Colors.red, width: 1.0) 
-                        : BorderSide.none,
+                    borderSide:
+                        _emailError != null
+                            ? const BorderSide(color: Colors.red, width: 1.0)
+                            : BorderSide.none,
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: _emailError != null 
-                        ? const BorderSide(color: Colors.red, width: 1.0) 
-                        : const BorderSide(color: Color(0xFF0B6259), width: 1.0),
+                    borderSide:
+                        _emailError != null
+                            ? const BorderSide(color: Colors.red, width: 1.0)
+                            : const BorderSide(
+                              color: Color(0xFF0B6259),
+                              width: 1.0,
+                            ),
                   ),
                   filled: true,
                   fillColor: Colors.grey[100],
@@ -105,10 +111,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   padding: const EdgeInsets.only(top: 8.0, left: 12.0),
                   child: Text(
                     _emailError!,
-                    style: const TextStyle(
-                      color: Colors.red,
-                      fontSize: 12,
-                    ),
+                    style: const TextStyle(color: Colors.red, fontSize: 12),
                   ),
                 ),
 
@@ -124,16 +127,18 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     setState(() {
                       _emailError = null; // Reset error
                     });
-                    
+
                     if (_emailController.text.isEmpty) {
                       setState(() {
                         _emailError = 'Please enter your email';
                       });
                       return;
                     }
-                    
+
                     // Check for valid email format
-                    final bool emailValid = RegExp(r'^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(_emailController.text);
+                    final bool emailValid = RegExp(
+                      r'^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$',
+                    ).hasMatch(_emailController.text);
                     if (!emailValid) {
                       setState(() {
                         _emailError = 'Please enter a valid email';
@@ -219,14 +224,20 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                       height: 50,
                                       child: ElevatedButton(
                                         onPressed: () {
-                                          Navigator.pop(context); // Close dialog
+                                          Navigator.pop(
+                                            context,
+                                          ); // Close dialog
                                           // Navigate to reset password page
                                           _navigateToResetPasswordPage();
                                         },
                                         style: ElevatedButton.styleFrom(
-                                          backgroundColor: const Color(0xFF0B6259),
+                                          backgroundColor: const Color(
+                                            0xFF0B6259,
+                                          ),
                                           shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(8),
+                                            borderRadius: BorderRadius.circular(
+                                              8,
+                                            ),
                                           ),
                                         ),
                                         child: const Text(
@@ -250,7 +261,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       // Email not found
                       if (mounted) {
                         setState(() {
-                          _emailError = 'Email not found. Please check your email address.';
+                          _emailError =
+                              'Email not found. Please check your email address.';
                         });
                       }
                     }

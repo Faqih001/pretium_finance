@@ -46,7 +46,9 @@ class _LandingPageState extends State<LandingPage> {
   void _navigateToLogin() {
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => const LoginPage(fromPasswordReset: false)),
+      MaterialPageRoute(
+        builder: (context) => const LoginPage(fromPasswordReset: false),
+      ),
     );
   }
 

@@ -16,17 +16,17 @@ class _SignupPageState extends State<SignupPage> {
   final _passwordController = TextEditingController();
   bool _obscurePassword = true;
   bool _acceptTerms = false;
-  
+
   // Error messages
   String? _firstNameError;
   String? _lastNameError;
   String? _emailError;
   String? _passwordError;
   String? _termsError;
-  
+
   // URL for terms and conditions
   final Uri _termsUrl = Uri.parse('https://pretium.africa/term-of-use');
-  
+
   Future<void> _launchTermsUrl() async {
     if (!await launchUrl(_termsUrl, mode: LaunchMode.inAppWebView)) {
       if (mounted) {
@@ -98,21 +98,27 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: _firstNameError != null 
-                        ? const BorderSide(color: Colors.red, width: 1.0) 
-                        : BorderSide.none,
+                    borderSide:
+                        _firstNameError != null
+                            ? const BorderSide(color: Colors.red, width: 1.0)
+                            : BorderSide.none,
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: _firstNameError != null 
-                        ? const BorderSide(color: Colors.red, width: 1.0) 
-                        : BorderSide.none,
+                    borderSide:
+                        _firstNameError != null
+                            ? const BorderSide(color: Colors.red, width: 1.0)
+                            : BorderSide.none,
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: _firstNameError != null 
-                        ? const BorderSide(color: Colors.red, width: 1.0) 
-                        : const BorderSide(color: Color(0xFF0B6259), width: 1.0),
+                    borderSide:
+                        _firstNameError != null
+                            ? const BorderSide(color: Colors.red, width: 1.0)
+                            : const BorderSide(
+                              color: Color(0xFF0B6259),
+                              width: 1.0,
+                            ),
                   ),
                   filled: true,
                   fillColor: Colors.grey[100],
@@ -124,10 +130,7 @@ class _SignupPageState extends State<SignupPage> {
                   padding: const EdgeInsets.only(top: 8.0, left: 12.0),
                   child: Text(
                     _firstNameError!,
-                    style: const TextStyle(
-                      color: Colors.red,
-                      fontSize: 12,
-                    ),
+                    style: const TextStyle(color: Colors.red, fontSize: 12),
                   ),
                 ),
 
@@ -144,21 +147,27 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: _lastNameError != null 
-                        ? const BorderSide(color: Colors.red, width: 1.0) 
-                        : BorderSide.none,
+                    borderSide:
+                        _lastNameError != null
+                            ? const BorderSide(color: Colors.red, width: 1.0)
+                            : BorderSide.none,
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: _lastNameError != null 
-                        ? const BorderSide(color: Colors.red, width: 1.0) 
-                        : BorderSide.none,
+                    borderSide:
+                        _lastNameError != null
+                            ? const BorderSide(color: Colors.red, width: 1.0)
+                            : BorderSide.none,
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: _lastNameError != null 
-                        ? const BorderSide(color: Colors.red, width: 1.0) 
-                        : const BorderSide(color: Color(0xFF0B6259), width: 1.0),
+                    borderSide:
+                        _lastNameError != null
+                            ? const BorderSide(color: Colors.red, width: 1.0)
+                            : const BorderSide(
+                              color: Color(0xFF0B6259),
+                              width: 1.0,
+                            ),
                   ),
                   filled: true,
                   fillColor: Colors.grey[100],
@@ -170,10 +179,7 @@ class _SignupPageState extends State<SignupPage> {
                   padding: const EdgeInsets.only(top: 8.0, left: 12.0),
                   child: Text(
                     _lastNameError!,
-                    style: const TextStyle(
-                      color: Colors.red,
-                      fontSize: 12,
-                    ),
+                    style: const TextStyle(color: Colors.red, fontSize: 12),
                   ),
                 ),
 
@@ -191,21 +197,27 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: _emailError != null 
-                        ? const BorderSide(color: Colors.red, width: 1.0) 
-                        : BorderSide.none,
+                    borderSide:
+                        _emailError != null
+                            ? const BorderSide(color: Colors.red, width: 1.0)
+                            : BorderSide.none,
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: _emailError != null 
-                        ? const BorderSide(color: Colors.red, width: 1.0) 
-                        : BorderSide.none,
+                    borderSide:
+                        _emailError != null
+                            ? const BorderSide(color: Colors.red, width: 1.0)
+                            : BorderSide.none,
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: _emailError != null 
-                        ? const BorderSide(color: Colors.red, width: 1.0) 
-                        : const BorderSide(color: Color(0xFF0B6259), width: 1.0),
+                    borderSide:
+                        _emailError != null
+                            ? const BorderSide(color: Colors.red, width: 1.0)
+                            : const BorderSide(
+                              color: Color(0xFF0B6259),
+                              width: 1.0,
+                            ),
                   ),
                   filled: true,
                   fillColor: Colors.grey[100],
@@ -217,10 +229,7 @@ class _SignupPageState extends State<SignupPage> {
                   padding: const EdgeInsets.only(top: 8.0, left: 12.0),
                   child: Text(
                     _emailError!,
-                    style: const TextStyle(
-                      color: Colors.red,
-                      fontSize: 12,
-                    ),
+                    style: const TextStyle(color: Colors.red, fontSize: 12),
                   ),
                 ),
 
@@ -251,21 +260,27 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: _passwordError != null 
-                        ? const BorderSide(color: Colors.red, width: 1.0) 
-                        : BorderSide.none,
+                    borderSide:
+                        _passwordError != null
+                            ? const BorderSide(color: Colors.red, width: 1.0)
+                            : BorderSide.none,
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: _passwordError != null 
-                        ? const BorderSide(color: Colors.red, width: 1.0) 
-                        : BorderSide.none,
+                    borderSide:
+                        _passwordError != null
+                            ? const BorderSide(color: Colors.red, width: 1.0)
+                            : BorderSide.none,
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: _passwordError != null 
-                        ? const BorderSide(color: Colors.red, width: 1.0) 
-                        : const BorderSide(color: Color(0xFF0B6259), width: 1.0),
+                    borderSide:
+                        _passwordError != null
+                            ? const BorderSide(color: Colors.red, width: 1.0)
+                            : const BorderSide(
+                              color: Color(0xFF0B6259),
+                              width: 1.0,
+                            ),
                   ),
                   filled: true,
                   fillColor: Colors.grey[100],
@@ -277,10 +292,7 @@ class _SignupPageState extends State<SignupPage> {
                   padding: const EdgeInsets.only(top: 8.0, left: 12.0),
                   child: Text(
                     _passwordError!,
-                    style: const TextStyle(
-                      color: Colors.red,
-                      fontSize: 12,
-                    ),
+                    style: const TextStyle(color: Colors.red, fontSize: 12),
                   ),
                 ),
 
@@ -303,9 +315,10 @@ class _SignupPageState extends State<SignupPage> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(4),
                     ),
-                    side: _termsError != null 
-                        ? const BorderSide(color: Colors.red, width: 1.0)
-                        : null,
+                    side:
+                        _termsError != null
+                            ? const BorderSide(color: Colors.red, width: 1.0)
+                            : null,
                   ),
                   TextButton(
                     onPressed: _launchTermsUrl,
@@ -324,10 +337,7 @@ class _SignupPageState extends State<SignupPage> {
                   padding: const EdgeInsets.only(top: 8.0, left: 12.0),
                   child: Text(
                     _termsError!,
-                    style: const TextStyle(
-                      color: Colors.red,
-                      fontSize: 12,
-                    ),
+                    style: const TextStyle(color: Colors.red, fontSize: 12),
                   ),
                 ),
 
@@ -347,24 +357,24 @@ class _SignupPageState extends State<SignupPage> {
                       _passwordError = null;
                       _termsError = null;
                     });
-                    
+
                     // Validate each field
                     bool isValid = true;
-                    
+
                     if (_firstNameController.text.isEmpty) {
                       setState(() {
                         _firstNameError = 'Please enter your first name';
                         isValid = false;
                       });
                     }
-                    
+
                     if (_lastNameController.text.isEmpty) {
                       setState(() {
                         _lastNameError = 'Please enter your last name';
                         isValid = false;
                       });
                     }
-                    
+
                     if (_emailController.text.isEmpty) {
                       setState(() {
                         _emailError = 'Please enter your email';
@@ -372,8 +382,9 @@ class _SignupPageState extends State<SignupPage> {
                       });
                     } else {
                       // Check email format
-                      final bool emailValid = RegExp(r'^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$')
-                          .hasMatch(_emailController.text);
+                      final bool emailValid = RegExp(
+                        r'^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$',
+                      ).hasMatch(_emailController.text);
                       if (!emailValid) {
                         setState(() {
                           _emailError = 'Please enter a valid email';
@@ -381,7 +392,7 @@ class _SignupPageState extends State<SignupPage> {
                         });
                       }
                     }
-                    
+
                     if (_passwordController.text.isEmpty) {
                       setState(() {
                         _passwordError = 'Please enter a password';
@@ -389,18 +400,20 @@ class _SignupPageState extends State<SignupPage> {
                       });
                     } else if (_passwordController.text.length < 6) {
                       setState(() {
-                        _passwordError = 'Password must be at least 6 characters';
+                        _passwordError =
+                            'Password must be at least 6 characters';
                         isValid = false;
                       });
                     }
-                    
+
                     if (!_acceptTerms) {
                       setState(() {
-                        _termsError = 'You must accept the terms and conditions';
+                        _termsError =
+                            'You must accept the terms and conditions';
                         isValid = false;
                       });
                     }
-                    
+
                     // If any validation failed, return early
                     if (!isValid) {
                       return;

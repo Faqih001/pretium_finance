@@ -98,39 +98,39 @@ class StorageService {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.clear();
   }
-  
+
   // Update user password
   static Future<bool> updatePassword(String email, String newPassword) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? userData = prefs.getString(userKey);
-    
+
     if (userData != null) {
       final Map<String, dynamic> user = jsonDecode(userData);
-      
+
       // Check if the email matches
       if (user['email'] == email) {
         // Update password
         user['password'] = newPassword;
         user['updatedAt'] = DateTime.now().toIso8601String();
-        
+
         // Save updated user data
         await prefs.setString(userKey, jsonEncode(user));
-        
+
         // Clear reset request after successful update
         await prefs.remove(passwordResetRequestKey);
-        
+
         return true;
       }
     }
     return false;
   }
-  
+
   // Verify reset code
   static Future<bool> verifyResetCode(String email, String code) async {
     final resetData = await getPasswordResetRequest();
-    
-    if (resetData != null && 
-        resetData['email'] == email && 
+
+    if (resetData != null &&
+        resetData['email'] == email &&
         resetData['code'] == code) {
       return true;
     }

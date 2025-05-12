@@ -6,11 +6,8 @@ import '../services/storage_service.dart';
 
 class LoginPage extends StatefulWidget {
   final bool fromPasswordReset;
-  
-  const LoginPage({
-    super.key, 
-    this.fromPasswordReset = false,
-  });
+
+  const LoginPage({super.key, this.fromPasswordReset = false});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -28,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     super.initState();
     _loadSavedEmail();
-    
+
     // Show notification if coming from password reset page
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (widget.fromPasswordReset && mounted) {
@@ -36,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
       }
     });
   }
-  
+
   void _showPasswordResetNotification() {
     // Show a notification at the bottom of the screen
     final snackBar = SnackBar(
@@ -47,16 +44,10 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: const Color(0xFF0B6259),
       duration: const Duration(seconds: 5),
       behavior: SnackBarBehavior.floating,
-      margin: EdgeInsets.only(
-        bottom: 70.0,
-        left: 16.0,
-        right: 16.0,
-      ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
-      ),
+      margin: EdgeInsets.only(bottom: 70.0, left: 16.0, right: 16.0),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
     );
-    
+
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
@@ -136,21 +127,27 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: _emailError != null 
-                        ? const BorderSide(color: Colors.red, width: 1.0) 
-                        : BorderSide.none,
+                    borderSide:
+                        _emailError != null
+                            ? const BorderSide(color: Colors.red, width: 1.0)
+                            : BorderSide.none,
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: _emailError != null 
-                        ? const BorderSide(color: Colors.red, width: 1.0) 
-                        : BorderSide.none,
+                    borderSide:
+                        _emailError != null
+                            ? const BorderSide(color: Colors.red, width: 1.0)
+                            : BorderSide.none,
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: _emailError != null 
-                        ? const BorderSide(color: Colors.red, width: 1.0) 
-                        : const BorderSide(color: Color(0xFF0B6259), width: 1.0),
+                    borderSide:
+                        _emailError != null
+                            ? const BorderSide(color: Colors.red, width: 1.0)
+                            : const BorderSide(
+                              color: Color(0xFF0B6259),
+                              width: 1.0,
+                            ),
                   ),
                   filled: true,
                   fillColor: Colors.grey[100],
@@ -162,10 +159,7 @@ class _LoginPageState extends State<LoginPage> {
                   padding: const EdgeInsets.only(top: 8.0, left: 12.0),
                   child: Text(
                     _emailError!,
-                    style: const TextStyle(
-                      color: Colors.red,
-                      fontSize: 12,
-                    ),
+                    style: const TextStyle(color: Colors.red, fontSize: 12),
                   ),
                 ),
 
@@ -196,21 +190,27 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: _passwordError != null 
-                        ? const BorderSide(color: Colors.red, width: 1.0) 
-                        : BorderSide.none,
+                    borderSide:
+                        _passwordError != null
+                            ? const BorderSide(color: Colors.red, width: 1.0)
+                            : BorderSide.none,
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: _passwordError != null 
-                        ? const BorderSide(color: Colors.red, width: 1.0) 
-                        : BorderSide.none,
+                    borderSide:
+                        _passwordError != null
+                            ? const BorderSide(color: Colors.red, width: 1.0)
+                            : BorderSide.none,
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: _passwordError != null 
-                        ? const BorderSide(color: Colors.red, width: 1.0) 
-                        : const BorderSide(color: Color(0xFF0B6259), width: 1.0),
+                    borderSide:
+                        _passwordError != null
+                            ? const BorderSide(color: Colors.red, width: 1.0)
+                            : const BorderSide(
+                              color: Color(0xFF0B6259),
+                              width: 1.0,
+                            ),
                   ),
                   filled: true,
                   fillColor: Colors.grey[100],
@@ -222,10 +222,7 @@ class _LoginPageState extends State<LoginPage> {
                   padding: const EdgeInsets.only(top: 8.0, left: 12.0),
                   child: Text(
                     _passwordError!,
-                    style: const TextStyle(
-                      color: Colors.red,
-                      fontSize: 12,
-                    ),
+                    style: const TextStyle(color: Colors.red, fontSize: 12),
                   ),
                 ),
 
@@ -301,10 +298,10 @@ class _LoginPageState extends State<LoginPage> {
                       _emailError = null;
                       _passwordError = null;
                     });
-                    
+
                     // Validate inputs
                     bool isValid = true;
-                    
+
                     if (_emailController.text.isEmpty) {
                       setState(() {
                         _emailError = 'Please enter your email';
@@ -312,8 +309,9 @@ class _LoginPageState extends State<LoginPage> {
                       });
                     } else {
                       // Check for valid email format
-                      final bool emailValid = RegExp(r'^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$')
-                          .hasMatch(_emailController.text);
+                      final bool emailValid = RegExp(
+                        r'^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$',
+                      ).hasMatch(_emailController.text);
                       if (!emailValid) {
                         setState(() {
                           _emailError = 'Please enter a valid email';
@@ -321,14 +319,14 @@ class _LoginPageState extends State<LoginPage> {
                         });
                       }
                     }
-                    
+
                     if (_passwordController.text.isEmpty) {
                       setState(() {
                         _passwordError = 'Please enter your password';
                         isValid = false;
                       });
                     }
-                    
+
                     // If validation failed, return early
                     if (!isValid) {
                       return;
