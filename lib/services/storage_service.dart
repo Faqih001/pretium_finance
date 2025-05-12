@@ -6,6 +6,8 @@ class StorageService {
   static const String isLoggedInKey = 'is_logged_in';
   static const String emailKey = 'user_email';
   static const String passwordResetRequestKey = 'password_reset_request';
+  static const String pinKey = 'user_pin';
+  static const String hasPinKey = 'has_pin';
 
   // Save user data (from signup)
   static Future<void> saveUserData({
@@ -135,5 +137,30 @@ class StorageService {
       return true;
     }
     return false;
+  }
+  
+  // Save user PIN
+  static Future<void> savePin(String pin) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString(pinKey, pin);
+    await prefs.setBool(hasPinKey, true);
+  }
+  
+  // Get user PIN
+  static Future<String?> getPin() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(pinKey);
+  }
+  
+  // Check if user has PIN
+  static Future<bool> hasPin() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(hasPinKey) ?? false;
+  }
+  
+  // Get login status
+  static Future<bool> getLoginStatus() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(isLoggedInKey) ?? false;
   }
 }
