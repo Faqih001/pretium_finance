@@ -99,14 +99,15 @@ class _PaybillPageState extends State<PaybillPage> {
     setState(() {
       _isLoading = true;
     });
-    
+
     try {
       // Parse amount
       double amount = double.parse(_amountController.text);
-      
+
       // Generate a random ID for the transaction
-      String transactionId = 'paybill_${DateTime.now().millisecondsSinceEpoch}_${Random().nextInt(1000)}';
-      
+      String transactionId =
+          'paybill_${DateTime.now().millisecondsSinceEpoch}_${Random().nextInt(1000)}';
+
       // Create transaction object
       Transaction transaction = Transaction(
         id: transactionId,
@@ -117,10 +118,10 @@ class _PaybillPageState extends State<PaybillPage> {
         status: 'completed',
         description: 'Account: ${_accountController.text}',
       );
-      
+
       // Save transaction
       await StorageService.saveTransaction(transaction);
-      
+
       if (mounted) {
         setState(() {
           _isLoading = false;
@@ -140,7 +141,7 @@ class _PaybillPageState extends State<PaybillPage> {
         setState(() {
           _isLoading = false;
         });
-        
+
         // Show error message using notification service
         NotificationService.showNotification(
           context,

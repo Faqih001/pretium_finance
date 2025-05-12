@@ -86,10 +86,11 @@ class _SendMoneyPageState extends State<SendMoneyPage> {
     try {
       // Parse amount
       double amount = double.parse(_amountController.text);
-      
+
       // Generate a random ID for the transaction
-      String transactionId = 'send_${DateTime.now().millisecondsSinceEpoch}_${Random().nextInt(1000)}';
-      
+      String transactionId =
+          'send_${DateTime.now().millisecondsSinceEpoch}_${Random().nextInt(1000)}';
+
       // Create transaction object
       Transaction transaction = Transaction(
         id: transactionId,
@@ -99,10 +100,10 @@ class _SendMoneyPageState extends State<SendMoneyPage> {
         timestamp: DateTime.now(),
         status: 'completed',
       );
-      
+
       // Save transaction
       await StorageService.saveTransaction(transaction);
-      
+
       if (mounted) {
         setState(() {
           _isLoading = false;
@@ -122,7 +123,7 @@ class _SendMoneyPageState extends State<SendMoneyPage> {
         setState(() {
           _isLoading = false;
         });
-        
+
         // Show error message using notification service
         NotificationService.showNotification(
           context,

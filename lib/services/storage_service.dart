@@ -31,7 +31,7 @@ class StorageService {
 
     await prefs.setString(userKey, jsonEncode(userData));
     await prefs.setString(emailKey, email);
-    
+
     // Initialize wallet balance for new user (1000 KES for demo purposes)
     if (prefs.getDouble(walletBalanceKey) == null) {
       await prefs.setDouble(walletBalanceKey, 1000.0);
@@ -106,58 +106,62 @@ class StorageService {
   // Save a new transaction
   static Future<void> saveTransaction(Transaction transaction) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    
+
     // Get existing transactions or initialize empty list
     List<Transaction> transactions = await getTransactions();
-    
+
     // Add new transaction
     transactions.add(transaction);
-    
+
     // Save updated list
     await prefs.setString(
-      transactionsKey, 
-      jsonEncode(transactions.map((e) => e.toJson()).toList())
+      transactionsKey,
+      jsonEncode(transactions.map((e) => e.toJson()).toList()),
     );
-    
+
     // Update wallet balance
-    if (transaction.status == 'completed' && (transaction.type == 'send' || 
-        transaction.type == 'buy_goods' || transaction.type == 'paybill' || 
-        transaction.type == 'airtime')) {
+    if (transaction.status == 'completed' &&
+        (transaction.type == 'send' ||
+            transaction.type == 'buy_goods' ||
+            transaction.type == 'paybill' ||
+            transaction.type == 'airtime')) {
       double currentBalance = await getWalletBalance();
       await setWalletBalance(currentBalance - transaction.amount);
     }
   }
-  
+
   // Get all transactions
   static Future<List<Transaction>> getTransactions() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? transactionsJson = prefs.getString(transactionsKey);
-    
+
     if (transactionsJson != null) {
       final List<dynamic> decoded = jsonDecode(transactionsJson);
       return decoded.map((item) => Transaction.fromJson(item)).toList();
     }
-    
+
     return [];
   }
-  
+
   // Get recent transactions (limited by count)
-  static Future<List<Transaction>> getRecentTransactions([int count = 5]) async {
+  static Future<List<Transaction>> getRecentTransactions([
+    int count = 5,
+  ]) async {
     List<Transaction> allTransactions = await getTransactions();
-    
+
     // Sort by timestamp (most recent first)
     allTransactions.sort((a, b) => b.timestamp.compareTo(a.timestamp));
-    
+
     // Return limited number of transactions
     return allTransactions.take(count).toList();
   }
-  
+
   // Set wallet balance
   static Future<void> setWalletBalance(double balance) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setDouble(walletBalanceKey, balance);
   }
-  
+
   // Get wallet balance
   static Future<double> getWalletBalance() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
