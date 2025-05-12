@@ -54,10 +54,22 @@ class _LandingPageState extends State<LandingPage> {
     );
   }
 
-  void _handleButtonAction() {
+  void _handleButtonAction() async {
     if (_currentPage == onboardingData.length - 1) {
-      // On last page, go to login
-      _navigateToLogin();
+      // On last page, show loading and go to login
+      setState(() {
+        _isLoading = true;
+      });
+      
+      // Simulate network delay
+      await Future.delayed(const Duration(milliseconds: 1000));
+      
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+        _navigateToLogin();
+      }
     } else {
       // Not on last page, go to next page
       _pageController.nextPage(
@@ -118,28 +130,14 @@ class _LandingPageState extends State<LandingPage> {
           const SizedBox(height: 30),
           Padding(
             padding: const EdgeInsets.only(left: 20, right: 20, bottom: 70),
-            child: SizedBox(
-              width: double.infinity,
-              height: 56,
-              child: ElevatedButton(
-                onPressed: _handleButtonAction,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF0B6259),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                child: Text(
-                  _currentPage == onboardingData.length - 1
-                      ? 'Get Started'
-                      : 'Next',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
+            child: CustomButton(
+              text: _currentPage == onboardingData.length - 1
+                  ? 'Get Started'
+                  : 'Next',
+              fontSize: 18,
+              fontWeight: FontWeight.w500,
+              isLoading: _isLoading,
+              onPressed: _handleButtonAction,
             ),
           ),
         ],
