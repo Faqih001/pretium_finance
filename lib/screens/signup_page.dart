@@ -425,12 +425,13 @@ class _SignupPageState extends State<SignupPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => VerifyAccountPage(
-                            firstName: _firstNameController.text,
-                            lastName: _lastNameController.text,
-                            email: _emailController.text,
-                            password: _passwordController.text,
-                          ),
+                          builder:
+                              (context) => VerifyAccountPage(
+                                firstName: _firstNameController.text,
+                                lastName: _lastNameController.text,
+                                email: _emailController.text,
+                                password: _passwordController.text,
+                              ),
                         ),
                       );
                     }

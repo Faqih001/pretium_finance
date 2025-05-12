@@ -6,8 +6,13 @@ import '../services/storage_service.dart';
 
 class LoginPage extends StatefulWidget {
   final bool fromPasswordReset;
+  final bool fromEmailVerification;
 
-  const LoginPage({super.key, this.fromPasswordReset = false});
+  const LoginPage({
+    super.key,
+    this.fromPasswordReset = false,
+    this.fromEmailVerification = false,
+  });
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -26,10 +31,14 @@ class _LoginPageState extends State<LoginPage> {
     super.initState();
     _loadSavedEmail();
 
-    // Show notification if coming from password reset page
+    // Show notification if coming from password reset or email verification page
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (widget.fromPasswordReset && mounted) {
-        _showPasswordResetNotification();
+      if (mounted) {
+        if (widget.fromPasswordReset) {
+          _showPasswordResetNotification();
+        } else if (widget.fromEmailVerification) {
+          _showEmailVerificationNotification();
+        }
       }
     });
   }
@@ -44,7 +53,24 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: const Color(0xFF0B6259),
       duration: const Duration(seconds: 5),
       behavior: SnackBarBehavior.floating,
-      margin: EdgeInsets.only(bottom: 70.0, left: 16.0, right: 16.0),
+      margin: const EdgeInsets.only(bottom: 70.0, left: 16.0, right: 16.0),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  void _showEmailVerificationNotification() {
+    // Show a notification at the bottom of the screen
+    final snackBar = SnackBar(
+      content: const Text(
+        'Email verified successfully! Please login to continue',
+        style: TextStyle(color: Colors.white),
+      ),
+      backgroundColor: const Color(0xFF0B6259),
+      duration: const Duration(seconds: 3),
+      behavior: SnackBarBehavior.floating,
+      margin: const EdgeInsets.only(bottom: 70.0, left: 16.0, right: 16.0),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
     );
 

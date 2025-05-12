@@ -8,9 +8,9 @@ class VerifyAccountPage extends StatefulWidget {
   final String firstName;
   final String lastName;
   final String password;
-  
+
   const VerifyAccountPage({
-    super.key, 
+    super.key,
     required this.email,
     required this.firstName,
     required this.lastName,
@@ -22,7 +22,8 @@ class VerifyAccountPage extends StatefulWidget {
 }
 
 class _VerifyAccountPageState extends State<VerifyAccountPage> {
-  final TextEditingController _verificationCodeController = TextEditingController();
+  final TextEditingController _verificationCodeController =
+      TextEditingController();
   final FocusNode _codeFocusNode = FocusNode();
   String? _codeError;
   bool _keyboardVisible = false;
@@ -30,16 +31,16 @@ class _VerifyAccountPageState extends State<VerifyAccountPage> {
   String _notificationText = '';
   String _selectedCountry = 'Kenya';
   final List<String> _countries = [
-    'Kenya', 
-    'Uganda', 
-    'Nigeria', 
-    'Ghana', 
-    'Malawi', 
+    'Kenya',
+    'Uganda',
+    'Nigeria',
+    'Ghana',
+    'Malawi',
     'Zambia',
-    'Rwanda', 
-    'Global Users [全球用户]'
+    'Rwanda',
+    'Global Users [全球用户]',
   ];
-  
+
   @override
   void initState() {
     super.initState();
@@ -51,20 +52,20 @@ class _VerifyAccountPageState extends State<VerifyAccountPage> {
       });
     });
   }
-  
+
   @override
   void dispose() {
     _verificationCodeController.dispose();
     _codeFocusNode.dispose();
     super.dispose();
   }
-  
+
   void _showNotification(String message) {
     setState(() {
       _notificationVisible = true;
       _notificationText = message;
     });
-    
+
     // Hide notification after 3 seconds
     Future.delayed(const Duration(seconds: 3), () {
       if (mounted) {
@@ -80,7 +81,7 @@ class _VerifyAccountPageState extends State<VerifyAccountPage> {
       context: context,
       backgroundColor: Colors.white,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(15))
+        borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
       ),
       builder: (context) {
         return Padding(
@@ -92,10 +93,7 @@ class _VerifyAccountPageState extends State<VerifyAccountPage> {
                 padding: EdgeInsets.all(16.0),
                 child: Text(
                   'Select Country',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ),
               Expanded(
@@ -120,11 +118,11 @@ class _VerifyAccountPageState extends State<VerifyAccountPage> {
       },
     );
   }
-  
+
   void _resendCode() {
     _showNotification('Verification code resent');
   }
-  
+
   void _verifyEmail() {
     // Validate verification code
     if (_verificationCodeController.text.isEmpty) {
@@ -133,7 +131,7 @@ class _VerifyAccountPageState extends State<VerifyAccountPage> {
       });
       return;
     }
-    
+
     // In real app, verify code with server here
     // For demo, just accept any 4 digit code
     if (_verificationCodeController.text.length != 4) {
@@ -142,7 +140,7 @@ class _VerifyAccountPageState extends State<VerifyAccountPage> {
       });
       return;
     }
-    
+
     // Save user data since email is now verified
     StorageService.saveUserData(
       firstName: widget.firstName,
@@ -150,26 +148,21 @@ class _VerifyAccountPageState extends State<VerifyAccountPage> {
       email: widget.email,
       password: widget.password,
     );
-    
-    // Show success notification
-    _showNotification('Email verified successfully! Please login to continue');
-    
-    // Navigate to login page after short delay
-    Future.delayed(const Duration(seconds: 2), () {
-      if (mounted) {
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => const LoginPage()),
-          (route) => false,
-        );
-      }
-    });
+
+    // Navigate to login page with fromEmailVerification=true
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(
+        builder: (context) => const LoginPage(fromEmailVerification: true),
+      ),
+      (route) => false,
+    );
   }
-  
+
   @override
   Widget build(BuildContext context) {
     // Check if keyboard is visible
     _keyboardVisible = MediaQuery.of(context).viewInsets.bottom > 0;
-    
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -197,28 +190,31 @@ class _VerifyAccountPageState extends State<VerifyAccountPage> {
                       color: Color(0xFF222222),
                     ),
                   ),
-                  
+
                   const SizedBox(height: 12),
-                  
+
                   // Subtitle
                   const Text(
                     'Enter the verification code sent to your email',
                     style: TextStyle(fontSize: 16, color: Color(0xFF757575)),
                   ),
-                  
+
                   const SizedBox(height: 40),
-                  
+
                   // Country Selection Dropdown
                   GestureDetector(
                     onTap: _showCountrySelector,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 16,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.grey[100],
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
                           color: Colors.transparent,
-                          width: 1.0
+                          width: 1.0,
                         ),
                       ),
                       child: Row(
@@ -231,26 +227,21 @@ class _VerifyAccountPageState extends State<VerifyAccountPage> {
                               color: Colors.grey[800],
                             ),
                           ),
-                          const Icon(
-                            Icons.arrow_drop_down,
-                            color: Colors.grey,
-                          ),
+                          const Icon(Icons.arrow_drop_down, color: Colors.grey),
                         ],
                       ),
                     ),
                   ),
-                  
+
                   const SizedBox(height: 16),
-                  
+
                   // Verification Code Input
                   TextFormField(
                     controller: _verificationCodeController,
                     focusNode: _codeFocusNode,
                     keyboardType: TextInputType.number,
                     maxLength: 4,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                    ],
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     onTap: () {
                       setState(() {
                         _keyboardVisible = true;
@@ -270,25 +261,43 @@ class _VerifyAccountPageState extends State<VerifyAccountPage> {
                       ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: _codeError != null
-                            ? const BorderSide(color: Colors.red, width: 1.0)
-                            : BorderSide.none,
+                        borderSide:
+                            _codeError != null
+                                ? const BorderSide(
+                                  color: Colors.red,
+                                  width: 1.0,
+                                )
+                                : BorderSide.none,
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: _codeError != null
-                            ? const BorderSide(color: Colors.red, width: 1.0)
-                            : BorderSide.none,
+                        borderSide:
+                            _codeError != null
+                                ? const BorderSide(
+                                  color: Colors.red,
+                                  width: 1.0,
+                                )
+                                : BorderSide.none,
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: _codeError != null
-                            ? const BorderSide(color: Colors.red, width: 1.0)
-                            : const BorderSide(color: Color(0xFF0B6259), width: 1.0),
+                        borderSide:
+                            _codeError != null
+                                ? const BorderSide(
+                                  color: Colors.red,
+                                  width: 1.0,
+                                )
+                                : const BorderSide(
+                                  color: Color(0xFF0B6259),
+                                  width: 1.0,
+                                ),
                       ),
                       filled: true,
                       fillColor: Colors.grey[100],
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 16,
+                      ),
                     ),
                   ),
                   if (_codeError != null)
@@ -299,9 +308,9 @@ class _VerifyAccountPageState extends State<VerifyAccountPage> {
                         style: const TextStyle(color: Colors.red, fontSize: 12),
                       ),
                     ),
-                    
+
                   const SizedBox(height: 40),
-                  
+
                   // Verify Account Button
                   SizedBox(
                     width: double.infinity,
@@ -324,16 +333,19 @@ class _VerifyAccountPageState extends State<VerifyAccountPage> {
                       ),
                     ),
                   ),
-                  
+
                   const SizedBox(height: 24),
-                  
+
                   // Didn't receive code text and button
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text(
                         'Didn\'t receive the code?',
-                        style: TextStyle(fontSize: 14, color: Color(0xFF757575)),
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Color(0xFF757575),
+                        ),
                       ),
                       TextButton(
                         onPressed: _resendCode,
@@ -348,21 +360,27 @@ class _VerifyAccountPageState extends State<VerifyAccountPage> {
                       ),
                     ],
                   ),
-                  
+
                   // Space at bottom to avoid keyboard overlap
                   SizedBox(height: _keyboardVisible ? 200 : 20),
                 ],
               ),
             ),
-            
+
             // Notification at bottom
             if (_notificationVisible)
               Positioned(
-                bottom: _keyboardVisible ? MediaQuery.of(context).viewInsets.bottom : 70,
+                bottom:
+                    _keyboardVisible
+                        ? MediaQuery.of(context).viewInsets.bottom
+                        : 70,
                 left: 16,
                 right: 16,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 12,
+                  ),
                   decoration: BoxDecoration(
                     color: const Color(0xFF0B6259),
                     borderRadius: BorderRadius.circular(8),
