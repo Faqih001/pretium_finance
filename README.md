@@ -75,7 +75,7 @@ Pretium Finance is a mobile financial application built with Flutter that enable
 
 ```bash
 # Clone the repository
-git clone https://github.com/faqih001/pretium_finance.git
+git clone https://github.com/Faqih001/pretium_finance
 
 # Navigate to the project directory
 cd pretium_finance
@@ -143,7 +143,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Contact
 
-Project Maintainer: [Your Name](mailto:fakiiahmad001@gmail.com)
+Project Maintainer: [Fakii Mohammed](mailto:fakiiahmad001@gmail.com)
 
 ---
 
