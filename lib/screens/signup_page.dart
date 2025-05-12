@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
-import 'forgot_password_page.dart';
-import 'signup_page.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class SignupPage extends StatefulWidget {
+  const SignupPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<SignupPage> createState() => _SignupPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _SignupPageState extends State<SignupPage> {
+  final _firstNameController = TextEditingController();
+  final _lastNameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  bool _rememberMe = false;
   bool _obscurePassword = true;
+  bool _acceptTerms = false;
 
   @override
   void dispose() {
+    _firstNameController.dispose();
+    _lastNameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
@@ -26,33 +28,23 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(20),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 50),
-              // App Logo
-              Container(
-                height: 80,
-                width: 80,
-                decoration: BoxDecoration(
-                  color: const Color(0xFFEAF4F4),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: const Icon(
-                  Icons.account_balance_wallet,
-                  size: 40,
-                  color: Color(0xFF0B6259),
-                ),
-              ),
-
-              const SizedBox(height: 24),
-
-              // Welcome Back Text
+              // Title
               const Text(
-                'Welcome Back!',
+                'Create Account',
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
@@ -60,14 +52,60 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
 
-              const SizedBox(height: 8),
+              const SizedBox(height: 12),
 
+              // Subtitle
               const Text(
-                'Sign in to continue',
-                style: TextStyle(fontSize: 16, color: Color(0xFF757575)),
+                'Simplify your crypto payments with us',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Color(0xFF757575),
+                ),
               ),
 
-              const SizedBox(height: 40),
+              const SizedBox(height: 30),
+
+              // First Name Input
+              TextFormField(
+                controller: _firstNameController,
+                decoration: InputDecoration(
+                  hintText: 'First Name',
+                  prefixIcon: const Icon(
+                    Icons.person_outline,
+                    color: Color(0xFF0B6259),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide.none,
+                  ),
+                  filled: true,
+                  fillColor: Colors.grey[100],
+                  contentPadding: const EdgeInsets.symmetric(vertical: 16),
+                ),
+              ),
+
+              const SizedBox(height: 16),
+
+              // Last Name Input
+              TextFormField(
+                controller: _lastNameController,
+                decoration: InputDecoration(
+                  hintText: 'Last Name',
+                  prefixIcon: const Icon(
+                    Icons.person_outline,
+                    color: Color(0xFF0B6259),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide.none,
+                  ),
+                  filled: true,
+                  fillColor: Colors.grey[100],
+                  contentPadding: const EdgeInsets.symmetric(vertical: 16),
+                ),
+              ),
+
+              const SizedBox(height: 16),
 
               // Email Input
               TextFormField(
@@ -124,46 +162,29 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
 
-              const SizedBox(height: 16),
+              const SizedBox(height: 20),
 
-              // Remember Me and Forgot Password
+              // Terms and Conditions
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    children: [
-                      Checkbox(
-                        value: _rememberMe,
-                        onChanged: (value) {
-                          setState(() {
-                            _rememberMe = value ?? false;
-                          });
-                        },
-                        activeColor: const Color(0xFF0B6259),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                      ),
-                      const Text(
-                        'Remember me',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Color(0xFF757575),
-                        ),
-                      ),
-                    ],
+                  Checkbox(
+                    value: _acceptTerms,
+                    onChanged: (value) {
+                      setState(() {
+                        _acceptTerms = value ?? false;
+                      });
+                    },
+                    activeColor: const Color(0xFF0B6259),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4),
+                    ),
                   ),
                   TextButton(
                     onPressed: () {
-                      Navigator.push(
-                        context, 
-                        MaterialPageRoute(
-                          builder: (context) => const ForgotPasswordPage(),
-                        ),
-                      );
+                      // Show terms and conditions
                     },
                     child: const Text(
-                      'Forgot Password?',
+                      'Accept Terms and Conditions',
                       style: TextStyle(
                         color: Color(0xFF0B6259),
                         fontWeight: FontWeight.w500,
@@ -173,15 +194,15 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
 
-              const SizedBox(height: 24),
+              const SizedBox(height: 30),
 
-              // Login Button
+              // Create Account Button
               SizedBox(
                 width: double.infinity,
                 height: 56,
                 child: ElevatedButton(
                   onPressed: () {
-                    // Handle login
+                    // Handle account creation
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF0B6259),
@@ -190,7 +211,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   child: const Text(
-                    'Login',
+                    'Create Account',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 16,
@@ -200,27 +221,22 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
 
-              const SizedBox(height: 24),
+              const SizedBox(height: 20),
 
-              // Don't have an account
+              // Already have an account
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    'Don\'t have an account?',
+                    'Already have an account?',
                     style: TextStyle(fontSize: 14, color: Color(0xFF757575)),
                   ),
                   TextButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const SignupPage(),
-                        ),
-                      );
+                      Navigator.pop(context);
                     },
                     child: const Text(
-                      'Sign Up',
+                      'Login',
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
