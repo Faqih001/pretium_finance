@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/bottom_nav_bar.dart';
+import '../services/storage_service.dart';
+import '../models/transaction.dart';
+import 'dart:math';
 
 class AirtimePage extends StatefulWidget {
   const AirtimePage({super.key});
@@ -86,23 +89,56 @@ class _AirtimePageState extends State<AirtimePage> {
       _isLoading = true;
     });
 
-    // Simulate network request
-    await Future.delayed(const Duration(seconds: 2));
-
-    if (mounted) {
-      setState(() {
-        _isLoading = false;
-      });
-
-      // Show success message and go back
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Airtime purchase successful!'),
-          backgroundColor: Color(0xFF0B6259),
-        ),
+    try {
+      // Parse amount
+      double amount = double.parse(_amountController.text);
+      
+      // Generate a random ID for the transaction
+      String transactionId = 'airtime_${DateTime.now().millisecondsSinceEpoch}_${Random().nextInt(1000)}';
+      
+      // Create transaction object
+      Transaction transaction = Transaction(
+        id: transactionId,
+        type: 'airtime',
+        recipient: '${_selectedProvider} - ${_phoneController.text}',
+        amount: amount,
+        timestamp: DateTime.now(),
+        status: 'completed',
+        description: 'Provider: $_selectedProvider',
       );
+      
+      // Save transaction
+      await StorageService.saveTransaction(transaction);
+      
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
 
-      Navigator.pop(context);
+        // Show success message and go back
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Airtime purchase successful!'),
+            backgroundColor: Color(0xFF0B6259),
+          ),
+        );
+
+        Navigator.pop(context);
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+        
+        // Show error message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error purchasing airtime: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     }
   }
 

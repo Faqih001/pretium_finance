@@ -31,6 +31,11 @@ class StorageService {
 
     await prefs.setString(userKey, jsonEncode(userData));
     await prefs.setString(emailKey, email);
+    
+    // Initialize wallet balance for new user (1000 KES for demo purposes)
+    if (prefs.getDouble(walletBalanceKey) == null) {
+      await prefs.setDouble(walletBalanceKey, 1000.0);
+    }
   }
 
   // Save login status

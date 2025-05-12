@@ -305,7 +305,10 @@ class _DashboardPageState extends State<DashboardPage> {
                     MaterialPageRoute(
                       builder: (context) => const SendMoneyPage(),
                     ),
-                  );
+                  ).then((_) {
+                    _loadWalletBalance();
+                    _loadRecentTransactions();
+                  });
                 },
               ),
               _buildServiceItem(
@@ -317,7 +320,10 @@ class _DashboardPageState extends State<DashboardPage> {
                     MaterialPageRoute(
                       builder: (context) => const BuyGoodsPage(),
                     ),
-                  );
+                  ).then((_) {
+                    _loadWalletBalance();
+                    _loadRecentTransactions();
+                  });
                 },
               ),
               _buildServiceItem(
@@ -329,7 +335,10 @@ class _DashboardPageState extends State<DashboardPage> {
                     MaterialPageRoute(
                       builder: (context) => const PaybillPage(),
                     ),
-                  );
+                  ).then((_) {
+                    _loadWalletBalance();
+                    _loadRecentTransactions();
+                  });
                 },
               ),
               _buildServiceItem(
@@ -341,7 +350,10 @@ class _DashboardPageState extends State<DashboardPage> {
                     MaterialPageRoute(
                       builder: (context) => const AirtimePage(),
                     ),
-                  );
+                  ).then((_) {
+                    _loadWalletBalance();
+                    _loadRecentTransactions();
+                  });
                 },
               ),
             ],
