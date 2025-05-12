@@ -45,8 +45,10 @@ class _VerifyAccountPageState extends State<VerifyAccountPage> {
     super.initState();
     // Monitor keyboard visibility
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
-      _keyboardVisible = keyboardHeight > 0;
+      setState(() {
+        final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
+        _keyboardVisible = keyboardHeight > 0;
+      });
     });
   }
   
@@ -76,6 +78,7 @@ class _VerifyAccountPageState extends State<VerifyAccountPage> {
   void _showCountrySelector() {
     showModalBottomSheet(
       context: context,
+      backgroundColor: Colors.white,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(15))
       ),
@@ -297,7 +300,7 @@ class _VerifyAccountPageState extends State<VerifyAccountPage> {
                       ),
                       filled: true,
                       fillColor: Colors.grey[100],
-                      contentPadding: const EdgeInsets.symmetric(vertical: 16),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                     ),
                   ),
                   if (_codeError != null)
@@ -379,6 +382,7 @@ class _VerifyAccountPageState extends State<VerifyAccountPage> {
                   child: Text(
                     _notificationText,
                     style: const TextStyle(color: Colors.white),
+                    textAlign: TextAlign.center,
                   ),
                 ),
               ),
