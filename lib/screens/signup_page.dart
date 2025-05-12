@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/storage_service.dart';
+import '../widgets/custom_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'verify_account_page.dart';
 
@@ -17,6 +18,7 @@ class _SignupPageState extends State<SignupPage> {
   final _passwordController = TextEditingController();
   bool _obscurePassword = true;
   bool _acceptTerms = false;
+  bool _isLoading = false;
 
   // Error messages
   String? _firstNameError;
@@ -345,18 +347,17 @@ class _SignupPageState extends State<SignupPage> {
               const SizedBox(height: 30),
 
               // Create Account Button
-              SizedBox(
-                width: double.infinity,
-                height: 56,
-                child: ElevatedButton(
-                  onPressed: () async {
-                    // Reset all errors
-                    setState(() {
-                      _firstNameError = null;
-                      _lastNameError = null;
-                      _emailError = null;
-                      _passwordError = null;
-                      _termsError = null;
+              CustomButton(
+                text: 'Create Account',
+                isLoading: _isLoading,
+                onPressed: () async {
+                  // Reset all errors
+                  setState(() {
+                    _firstNameError = null;
+                    _lastNameError = null;
+                    _emailError = null;
+                    _passwordError = null;
+                    _termsError = null;
                     });
 
                     // Validate each field
