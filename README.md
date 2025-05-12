@@ -34,8 +34,31 @@ Pretium Finance is a mobile financial application built with Flutter that enable
 - **Multi-Currency Support**: View balances in local currency and USD equivalent
 
 ## Screenshots
+I have included some screenshots of the app below:
+### Login Screen
+![Login Screen](assets/screenshots/login_screen.jpeg)
 
-*Note: Include app screenshots here once available*
+### SignUp Screen
+![SignUp Screen](assets/screenshots/sign_up_screen.jpeg)
+
+### Splash Screen
+![Splash Screen](assets/screenshots/splash_screen.jpeg)
+
+### Dashboard Screen
+![Dashboard Screen](assets/screenshots/dashboard_screen_1.jpeg)
+![Dashboard Screen](assets/screenshots/dashboard_screen_2.jpeg)
+
+### Profile Setting Screen
+![Profile Setting Screen](assets/screenshots/profile_settings.jpeg)
+
+### Pay Bill Slider Screen
+![Pay Bill Slider Screen](assets/screenshots/pay_bills_slider.jpeg)
+
+### Direct Pay Slider Screen
+![Direct Pay Slider Screen](assets/screenshots/direct_pay_slider.jpeg)
+
+### Account Payment Slider Screen
+![Account Payment Slider Screen](assets/screenshots/account_payment_slider.jpeg)
 
 ## Technical Specifications
 
