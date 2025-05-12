@@ -25,7 +25,9 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0B6259), // Teal color as seen in the image
+      backgroundColor: const Color(
+        0xFF0B6259,
+      ), // Teal color as seen in the image
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -33,7 +35,10 @@ class _SplashScreenState extends State<SplashScreen> {
             SizedBox(
               height: 120,
               width: 120,
-              child: Image.asset('assets/pretium_logo.png', color: Colors.white),
+              child: Image.asset(
+                'assets/pretium_logo.png',
+                color: Colors.white,
+              ),
             ),
             const SizedBox(height: 20),
             const Text(

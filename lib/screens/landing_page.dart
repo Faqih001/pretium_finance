@@ -167,11 +167,7 @@ class OnboardingPage extends StatelessWidget {
               color: const Color(0xFFEAF4F4),
               borderRadius: BorderRadius.circular(60),
             ),
-            child: Icon(
-              icon,
-              size: 50,
-              color: const Color(0xFF0B6259),
-            ),
+            child: Icon(icon, size: 50, color: const Color(0xFF0B6259)),
           ),
           const SizedBox(height: 40),
           Text(

@@ -45,9 +45,9 @@ class _LoginPageState extends State<LoginPage> {
                   color: Color(0xFF0B6259),
                 ),
               ),
-              
+
               const SizedBox(height: 24),
-              
+
               // Welcome Back Text
               const Text(
                 'Welcome Back!',
@@ -57,19 +57,16 @@ class _LoginPageState extends State<LoginPage> {
                   color: Color(0xFF222222),
                 ),
               ),
-              
+
               const SizedBox(height: 8),
-              
+
               const Text(
                 'Sign in to continue',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Color(0xFF757575),
-                ),
+                style: TextStyle(fontSize: 16, color: Color(0xFF757575)),
               ),
-              
+
               const SizedBox(height: 40),
-              
+
               // Email Input
               TextFormField(
                 controller: _emailController,
@@ -89,9 +86,9 @@ class _LoginPageState extends State<LoginPage> {
                   contentPadding: const EdgeInsets.symmetric(vertical: 16),
                 ),
               ),
-              
+
               const SizedBox(height: 16),
-              
+
               // Password Input
               TextFormField(
                 controller: _passwordController,
@@ -104,8 +101,8 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   suffixIcon: IconButton(
                     icon: Icon(
-                      _obscurePassword 
-                          ? Icons.visibility_off_outlined 
+                      _obscurePassword
+                          ? Icons.visibility_off_outlined
                           : Icons.visibility_outlined,
                       color: Colors.grey,
                     ),
@@ -124,9 +121,9 @@ class _LoginPageState extends State<LoginPage> {
                   contentPadding: const EdgeInsets.symmetric(vertical: 16),
                 ),
               ),
-              
+
               const SizedBox(height: 16),
-              
+
               // Remember Me and Forgot Password
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -168,9 +165,9 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ],
               ),
-              
+
               const SizedBox(height: 24),
-              
+
               // Login Button
               SizedBox(
                 width: double.infinity,
@@ -195,19 +192,16 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
               ),
-              
+
               const SizedBox(height: 24),
-              
+
               // Don't have an account
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
                     'Don\'t have an account?',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Color(0xFF757575),
-                    ),
+                    style: TextStyle(fontSize: 14, color: Color(0xFF757575)),
                   ),
                   TextButton(
                     onPressed: () {
