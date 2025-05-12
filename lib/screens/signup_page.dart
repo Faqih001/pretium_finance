@@ -174,13 +174,38 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
+                    borderSide: _emailError != null 
+                        ? const BorderSide(color: Colors.red, width: 1.0) 
+                        : BorderSide.none,
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: _emailError != null 
+                        ? const BorderSide(color: Colors.red, width: 1.0) 
+                        : BorderSide.none,
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: _emailError != null 
+                        ? const BorderSide(color: Colors.red, width: 1.0) 
+                        : const BorderSide(color: Color(0xFF0B6259), width: 1.0),
                   ),
                   filled: true,
                   fillColor: Colors.grey[100],
                   contentPadding: const EdgeInsets.symmetric(vertical: 16),
                 ),
               ),
+              if (_emailError != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0, left: 12.0),
+                  child: Text(
+                    _emailError!,
+                    style: const TextStyle(
+                      color: Colors.red,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
 
               const SizedBox(height: 16),
 
@@ -209,13 +234,38 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
+                    borderSide: _passwordError != null 
+                        ? const BorderSide(color: Colors.red, width: 1.0) 
+                        : BorderSide.none,
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: _passwordError != null 
+                        ? const BorderSide(color: Colors.red, width: 1.0) 
+                        : BorderSide.none,
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: _passwordError != null 
+                        ? const BorderSide(color: Colors.red, width: 1.0) 
+                        : const BorderSide(color: Color(0xFF0B6259), width: 1.0),
                   ),
                   filled: true,
                   fillColor: Colors.grey[100],
                   contentPadding: const EdgeInsets.symmetric(vertical: 16),
                 ),
               ),
+              if (_passwordError != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0, left: 12.0),
+                  child: Text(
+                    _passwordError!,
+                    style: const TextStyle(
+                      color: Colors.red,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
 
               const SizedBox(height: 20),
 
@@ -227,12 +277,18 @@ class _SignupPageState extends State<SignupPage> {
                     onChanged: (value) {
                       setState(() {
                         _acceptTerms = value ?? false;
+                        if (_acceptTerms) {
+                          _termsError = null;
+                        }
                       });
                     },
                     activeColor: const Color(0xFF0B6259),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(4),
                     ),
+                    side: _termsError != null 
+                        ? const BorderSide(color: Colors.red, width: 1.0)
+                        : null,
                   ),
                   TextButton(
                     onPressed: () {
@@ -248,6 +304,17 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                 ],
               ),
+              if (_termsError != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0, left: 12.0),
+                  child: Text(
+                    _termsError!,
+                    style: const TextStyle(
+                      color: Colors.red,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
 
               const SizedBox(height: 30),
 
@@ -257,29 +324,70 @@ class _SignupPageState extends State<SignupPage> {
                 height: 56,
                 child: ElevatedButton(
                   onPressed: () async {
-                    // Validate inputs
-                    if (_firstNameController.text.isEmpty ||
-                        _lastNameController.text.isEmpty ||
-                        _emailController.text.isEmpty ||
-                        _passwordController.text.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Please fill in all fields'),
-                          backgroundColor: Colors.red,
-                        ),
-                      );
-                      return;
+                    // Reset all errors
+                    setState(() {
+                      _firstNameError = null;
+                      _lastNameError = null;
+                      _emailError = null;
+                      _passwordError = null;
+                      _termsError = null;
+                    });
+                    
+                    // Validate each field
+                    bool isValid = true;
+                    
+                    if (_firstNameController.text.isEmpty) {
+                      setState(() {
+                        _firstNameError = 'Please enter your first name';
+                        isValid = false;
+                      });
                     }
-
+                    
+                    if (_lastNameController.text.isEmpty) {
+                      setState(() {
+                        _lastNameError = 'Please enter your last name';
+                        isValid = false;
+                      });
+                    }
+                    
+                    if (_emailController.text.isEmpty) {
+                      setState(() {
+                        _emailError = 'Please enter your email';
+                        isValid = false;
+                      });
+                    } else {
+                      // Check email format
+                      final bool emailValid = RegExp(r'^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$')
+                          .hasMatch(_emailController.text);
+                      if (!emailValid) {
+                        setState(() {
+                          _emailError = 'Please enter a valid email';
+                          isValid = false;
+                        });
+                      }
+                    }
+                    
+                    if (_passwordController.text.isEmpty) {
+                      setState(() {
+                        _passwordError = 'Please enter a password';
+                        isValid = false;
+                      });
+                    } else if (_passwordController.text.length < 6) {
+                      setState(() {
+                        _passwordError = 'Password must be at least 6 characters';
+                        isValid = false;
+                      });
+                    }
+                    
                     if (!_acceptTerms) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text(
-                            'Please accept the terms and conditions',
-                          ),
-                          backgroundColor: Colors.red,
-                        ),
-                      );
+                      setState(() {
+                        _termsError = 'You must accept the terms and conditions';
+                        isValid = false;
+                      });
+                    }
+                    
+                    // If any validation failed, return early
+                    if (!isValid) {
                       return;
                     }
 
