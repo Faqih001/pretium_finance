@@ -1,16 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smooth_page_indicator/smooth_pa          SmoothPageIndicator(
-            controller: _pageController,
-            count: onboardingData.length,
-            effect: const WormEffect(
-              dotHeight: 12,
-              dotWidth: 12,
-              activeDotHeight: 12,
-              activeDotWidth: 32,
-              activeDotColor: Color(0xFF0B6259),
-              dotColor: Color(0xFFDDDDDD),
-            ),
-          ),or.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'login_page.dart';
 
 class LandingPage extends StatefulWidget {
@@ -108,7 +97,7 @@ class _LandingPageState extends State<LandingPage> {
           ),
           const SizedBox(height: 30),
           Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20, bottom: 70),
+            padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
             child: SizedBox(
               width: double.infinity,
               height: 56,
