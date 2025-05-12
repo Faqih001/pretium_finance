@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/custom_button.dart';
+import '../widgets/bottom_nav_bar.dart';
 
 class SendMoneyPage extends StatefulWidget {
   const SendMoneyPage({super.key});
@@ -110,6 +111,7 @@ class _SendMoneyPageState extends State<SendMoneyPage> {
         elevation: 0,
         iconTheme: const IconThemeData(color: Colors.black),
       ),
+      bottomNavigationBar: const BottomNavBar(currentIndex: 0), // Using dashboard index since this is accessed from dashboard
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
