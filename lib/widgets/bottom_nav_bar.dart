@@ -127,10 +127,13 @@ class BottomNavBar extends StatelessWidget {
                 subtitle: 'Send crypto to your Pretium wallet',
                 onTap: () {
                   Navigator.pop(context);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const DepositPage()),
-                  );
+                  // Check if we're already on the DepositPage
+                  if (context.widget is! DepositPage) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const DepositPage()),
+                    );
+                  }
                 },
                 context: context,
               ),
@@ -145,10 +148,13 @@ class BottomNavBar extends StatelessWidget {
                 subtitle: 'Buy crypto with mobile money',
                 onTap: () {
                   Navigator.pop(context);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const FundAccountPage()),
-                  );
+                  // Check if we're already on the FundAccountPage
+                  if (context.widget is! FundAccountPage) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const FundAccountPage()),
+                    );
+                  }
                 },
                 context: context,
               ),
@@ -163,10 +169,13 @@ class BottomNavBar extends StatelessWidget {
                 subtitle: 'Transfer crypto from your Pretium wallet',
                 onTap: () {
                   Navigator.pop(context);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const WithdrawPage()),
-                  );
+                  // Check if we're already on the WithdrawPage
+                  if (context.widget is! WithdrawPage) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const WithdrawPage()),
+                    );
+                  }
                 },
                 context: context,
               ),
