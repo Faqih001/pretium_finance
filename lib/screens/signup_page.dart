@@ -308,9 +308,7 @@ class _SignupPageState extends State<SignupPage> {
                         : null,
                   ),
                   TextButton(
-                    onPressed: () {
-                      // Show terms and conditions
-                    },
+                    onPressed: _launchTermsUrl,
                     child: const Text(
                       'Accept Terms and Conditions',
                       style: TextStyle(
