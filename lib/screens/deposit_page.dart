@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/bottom_nav_bar.dart';
 
 class DepositPage extends StatefulWidget {
   const DepositPage({super.key});
@@ -21,6 +22,7 @@ class _DepositPageState extends State<DepositPage> {
         elevation: 0,
         iconTheme: const IconThemeData(color: Colors.black),
       ),
+      bottomNavigationBar: const BottomNavBar(currentIndex: 1), // Using index 1 since this is accessed via the middle QR button
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20.0),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/custom_button.dart';
+import '../widgets/bottom_nav_bar.dart';
 
 class FundAccountPage extends StatefulWidget {
   const FundAccountPage({super.key});
