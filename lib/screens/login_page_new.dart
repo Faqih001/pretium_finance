@@ -348,69 +348,65 @@ class _LoginPageState extends State<LoginPage> {
                   }
 
                   if (_passwordController.text.isEmpty) {
+                    setState(() {
+                      _passwordError = 'Please enter your password';
+                      isValid = false;
+                    });
+                  }
+
+                  // If validation failed, return early
+                  if (!isValid) {
+                    return;
+                  }
+
+                  // Show loading indicator
+                  setState(() {
+                    _isLoading = true;
+                  });
+
+                  // Get user data from storage
+                  final userData = await StorageService.getUserData();
+
+                  // Check if credentials match
+                  if (userData != null &&
+                      userData['email'] == _emailController.text &&
+                      userData['password'] == _passwordController.text) {
+                    // Save login status and current email
+                    await StorageService.saveLoginStatus(true);
+                    await StorageService.saveEmail(_emailController.text);
+
+                    // Turn off loading
+                    setState(() {
+                      _isLoading = false;
+                    });
+
+                    // In a real app, navigate to the home/dashboard screen
+                    if (mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Login successful!'),
+                          backgroundColor: Color(0xFF0B6259),
+                        ),
+                      );
+
+                      // Navigate to dashboard screen
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const DashboardPage(),
+                        ),
+                      );
+                    }
+                  } else {
+                    // Invalid credentials
+                    if (mounted) {
                       setState(() {
-                        _passwordError = 'Please enter your password';
-                        isValid = false;
+                        _isLoading = false;
+                        _passwordError = 'Invalid email or password';
                       });
                     }
-
-                    // If validation failed, return early
-                    if (!isValid) {
-                      return;
-                    }
-
-                    // Get user data from storage
-                    final userData = await StorageService.getUserData();
-
-                    // Check if credentials match
-                    if (userData != null &&
-                        userData['email'] == _emailController.text &&
-                        userData['password'] == _passwordController.text) {
-                      // Save login status and current email
-                      await StorageService.saveLoginStatus(true);
-                      await StorageService.saveEmail(_emailController.text);
-
-                      // In a real app, navigate to the home/dashboard screen
-                      if (mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Login successful!'),
-                            backgroundColor: Color(0xFF0B6259),
-                          ),
-                        );
-
-                        // Navigate to dashboard screen
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const DashboardPage(),
-                          ),
-                        );
-                      }
-                    } else {
-                      // Invalid credentials
-                      if (mounted) {
-                        setState(() {
-                          _passwordError = 'Invalid email or password';
-                        });
-                      }
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF0B6259),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  child: const Text(
-                    'Login',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
+                  }
+                },
               ),
 
               const SizedBox(height: 24),
